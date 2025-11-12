@@ -1,0 +1,7 @@
+# Copia este archivo a .env y agrega tus credenciales reales
+NOTION_TOKEN=secret_tu_token_real_aqui
+NOTION_PROJECTS_DB_ID=tu_database_id_aqui
+
+# Nombres de las bases de datos (ajustar según tu Notion)
+MATRIZ_DB_NAME=Matriz de Pruebas
+INCIDENCIAS_DB_NAME=Reporte de incidencias

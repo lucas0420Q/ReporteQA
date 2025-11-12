@@ -1,0 +1,27 @@
+# Reportes generados
+
+Esta carpeta contiene los archivos JSON generados por el sistema.
+
+Los archivos siguen el formato: `reporte-real-YYYY-MM-DD.json`
+
+## Estructura típica:
+
+```json
+{
+  "fecha": "2025-11-10",
+  "zona_horaria": "America/Asuncion", 
+  "proyectos": [
+    {
+      "nombre": "Nombre del Proyecto",
+      "matriz_pruebas": {
+        "nuevos": 45,
+        "cambios": {...}
+      },
+      "incidencias": {
+        "nuevos": 15,
+        "cambios": {...}
+      }
+    }
+  ]
+}
+```

@@ -1,0 +1,8 @@
+# Ejemplo de archivo token.txt
+# Instrucciones:
+# 1. Renombra este archivo a "token.txt"
+# 2. Reemplaza la línea de abajo con tu token real de Notion
+# 3. El token debe comenzar con "ntn_" o "secret_"
+# 4. NO subas el archivo token.txt al repositorio
+
+ntn_tu_token_de_notion_aqui
