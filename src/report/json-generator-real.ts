@@ -49,8 +49,6 @@ export type ReporteJSONReal = {
 export class JSONGeneratorReal {
   private readonly fetcher: NotionFetcher;
   private readonly reportesDir = './reportes';
-  private contadorCP = 1;
-  private contadorRI = 1;
 
   // Configuración de propiedades por defecto
   private readonly defaultConfig: PropertyConfig = {
@@ -162,6 +160,28 @@ export class JSONGeneratorReal {
   }
 
   /**
+   * Extrae el número del CP o RI del título
+   */
+  private extraerNumeroCP(titulo: string): string {
+    // Buscar patrones como CP-01, CP - 01, RI-01, RI - 01, etc.
+    const match = titulo.match(/(?:CP|RI)\s*-?\s*(\d+)/i);
+    if (match) {
+      return match[1]; // Retorna solo el número (sin ceros a la izquierda)
+    }
+    // Si no encuentra patrón, retornar "0" como fallback
+    return "0";
+  }
+
+  /**
+   * Ordena por número de ID (como string numérico)
+   */
+  private ordenarPorNumeroId(idA: string, idB: string): number {
+    const numA = parseInt(idA, 10);
+    const numB = parseInt(idB, 10);
+    return numA - numB;
+  }
+
+  /**
    * Ordena por número CP/RI manteniendo el orden numérico correcto
    */
   private ordenarPorCP(tituloA: string, tituloB: string): number {
@@ -220,8 +240,10 @@ export class JSONGeneratorReal {
 
     for (const item of items) {
       const bucket = bucketMatriz(item.estado);
+      // Extraer el número del CP del título
+      const cpNumber = this.extraerNumeroCP(item.titulo);
       const itemFormateado = {
-        id: `${this.contadorCP++}`,
+        id: cpNumber,
         titulo: item.titulo
       };
 
@@ -240,12 +262,12 @@ export class JSONGeneratorReal {
 
     return {
       nuevos: items.length, // Total de items encontrados
-      nuevos_CP: pendientes.map(p => ({ ...p, estado: 'Pendiente' as const })).sort((a, b) => this.ordenarPorCP(a.titulo, b.titulo)),
+      nuevos_CP: pendientes.map(p => ({ ...p, estado: 'Pendiente' as const })).sort((a, b) => this.ordenarPorNumeroId(a.id, b.id)),
       cambios: {
         total: items.length,
-        pendiente: pendientes.sort((a, b) => this.ordenarPorCP(a.titulo, b.titulo)),
-        en_curso: enCurso.sort((a, b) => this.ordenarPorCP(a.titulo, b.titulo)),
-        finalizado: finalizados.sort((a, b) => this.ordenarPorCP(a.titulo, b.titulo))
+        pendiente: pendientes.sort((a, b) => this.ordenarPorNumeroId(a.id, b.id)),
+        en_curso: enCurso.sort((a, b) => this.ordenarPorNumeroId(a.id, b.id)),
+        finalizado: finalizados.sort((a, b) => this.ordenarPorNumeroId(a.id, b.id))
       }
     };
   }
@@ -259,8 +281,10 @@ export class JSONGeneratorReal {
 
     for (const item of items) {
       const bucket = bucketIncid(item.estado);
+      // Extraer el número del RI del título
+      const riNumber = this.extraerNumeroCP(item.titulo);
       const itemFormateado = {
-        id: `${this.contadorRI++}`,
+        id: riNumber,
         titulo: item.titulo
       };
 
@@ -287,11 +311,11 @@ export class JSONGeneratorReal {
       nuevos: items.length, // Total de items encontrados
       cambios: {
         total: items.length,
-        pendiente: pendientes.sort((a, b) => this.ordenarPorCP(a.titulo, b.titulo)),
-        devuelto: devueltos.sort((a, b) => this.ordenarPorCP(a.titulo, b.titulo)),
-        en_curso: enCurso.sort((a, b) => this.ordenarPorCP(a.titulo, b.titulo)),
-        finalizado: finalizados.sort((a, b) => this.ordenarPorCP(a.titulo, b.titulo)),
-        resuelto: resueltos.sort((a, b) => this.ordenarPorCP(a.titulo, b.titulo))
+        pendiente: pendientes.sort((a, b) => this.ordenarPorNumeroId(a.id, b.id)),
+        devuelto: devueltos.sort((a, b) => this.ordenarPorNumeroId(a.id, b.id)),
+        en_curso: enCurso.sort((a, b) => this.ordenarPorNumeroId(a.id, b.id)),
+        finalizado: finalizados.sort((a, b) => this.ordenarPorNumeroId(a.id, b.id)),
+        resuelto: resueltos.sort((a, b) => this.ordenarPorNumeroId(a.id, b.id))
       }
     };
   }
