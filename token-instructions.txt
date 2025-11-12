@@ -1,6 +1,0 @@
-# INSTRUCCIONES:
-# 1. Reemplaza la línea de abajo con tu token real de Notion
-# 2. El token debe empezar con "secret_" (no "ntn_" como en el ejemplo)
-# 3. Elimina esta línea de comentarios
-
-secret_tu_token_real_de_notion_aqui
