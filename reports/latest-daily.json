@@ -1,0 +1,1970 @@
+{
+  "fecha": "2025-11-13",
+  "zona_horaria": "America/Asuncion",
+  "proyectos": [
+    {
+      "nombre": "Crux - Versión 2.0",
+      "matriz_pruebas": {
+        "total_actual": 45,
+        "por_estado": {
+          "Finalizado": 45
+        },
+        "cambios": [
+          {
+            "id": "01",
+            "titulo": "CP-01 - Validación de opción de Exportación Excel (Individual)",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "02",
+            "titulo": "CP-02 - Validación del botón Exportación CSV (Individual)",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "03",
+            "titulo": "CP-03 - Validación del servicio de Exportación Excel masivo",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "04",
+            "titulo": "CP-04 - Validación del servicio de Exportación CSV (masivo)",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "05",
+            "titulo": "CP-05 - Validar histórico del chat en módulo Tickets",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "06",
+            "titulo": "CP-06 - Validar histórico del chat en módulo Chatbot",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "07",
+            "titulo": "CP-07 - Validar las funcionalidades de Auditoría",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "08",
+            "titulo": "CP-08 - Validar las funcionalidades de Tickets para Auditoría",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "09",
+            "titulo": "CP-09 - Validar estado de usuario al cerrar pestaña",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "10",
+            "titulo": "CP-10 - Validar el botón de Exportar en Formato Excel (masivo)",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "11",
+            "titulo": "CP-11 - Validar el botón de Exportar en Formato CSV (masivo)",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "12",
+            "titulo": "CP-12 - Validar las funcionalidades básicas del Chat con el bot de Crux a través del emulador",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "13",
+            "titulo": "CP-13 - Validar que el SDK derive correctamente a un agente",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "14",
+            "titulo": "CP-14- Validar las funcionalidades de True y False  para Disable Audio Recording",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "15",
+            "titulo": "CP-15- Validar las funcionalidades de True y False  para Disable Attachment",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "16",
+            "titulo": "CP-16 - Validar el flujo principal del SDK al asignarse el ticket a un agente",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "17",
+            "titulo": "CP-17 - Validar que no derive la conversación si no hay agentes disponibles",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "18",
+            "titulo": "CP-18 - Comprobar que el tiempo asignado al canal se cumple desde el rol Superadmin",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "19",
+            "titulo": "CP-19 - Comprobar que el tiempo asignado al canal se cumple desde el rol Supervisor",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "20",
+            "titulo": "CP-20 - Validar que aparezca el nuevo canal Chatbot Mobile",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "21",
+            "titulo": "CP-21 -  Validar la funcionalidad del modo oscuro —> theme Dark",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "22",
+            "titulo": "CP-22 - Validar mensajes de error en el SDK",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "23",
+            "titulo": "CP-23 - Verificación de enlaces en el SDK",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "24",
+            "titulo": "CP-24 - Validar los filtros en el módulo Agente",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "25",
+            "titulo": "CP-25 - Verificar que si visualice la CI en la Vista Kanban del MA",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "26",
+            "titulo": "CP-26 - Pruebas exploratorias creación de Tickets",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "27",
+            "titulo": "CP-27 - Validar que se visualicen las columnas de Teléfono y CI",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "28",
+            "titulo": "CP-28 - Validar que se visualicen los nuevos nombres de los canales: Móvil y Web",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "29",
+            "titulo": "CP-29 - Validar las funcionalidades básicas del Widget",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "30",
+            "titulo": "CP-30 - Validar que el Widget derive correctamente a un agente",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "31",
+            "titulo": "CP-31 - Validar que el Widget no derive la conversación si no hay agentes disponibles",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "32",
+            "titulo": "CP-32 -  Validar que el Widget asuma el tema predeterminado",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "33",
+            "titulo": "CP-33 - Verificación de enlaces en el Widget",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "34",
+            "titulo": "CP-34 - Validar mensaje error en el Widget",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "35",
+            "titulo": "CP-35 - Validar que aparezca una sola vez el mensaje de pre aprobado desde el SDK",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "36",
+            "titulo": "CP-36 - Validar que una vez enviado el mensaje pre aprobado no se vuelva a enviar (es una sola vez al día)",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "37",
+            "titulo": "CP-37 - Validar que llegue la Notificación del sistema cuando se crea un ticket y el ticket corresponde con el agente que está logueado",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "38",
+            "titulo": "CP-38 - Confirmar que se muestre la notificación del sistema cuando el cliente escribe un mensaje nuevo",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "39",
+            "titulo": "CP-39 - Validar que estando fuera de la pestaña del sistema se muestren las notificaciones del sistema",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "40",
+            "titulo": "CP-40 - Confirmar que el navegador solicite permiso para activar las notificaciones del sistema",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "41",
+            "titulo": "CP- 41 - Validar que se visualicen las conversaciones en el MA de cobranza",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "42",
+            "titulo": "CP-42 - Validar que desde el rol de Supervisor se pueda modificar Gestión de Tiempos",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "43",
+            "titulo": "CP- 43 - Confirmar que los tiempos modificados se ejecuten correctamente",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "44",
+            "titulo": "CP-44 - Validar que se genere correctamente una nueva plantilla",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "45",
+            "titulo": "CP-45 - Confirmar el funcionamiento del Botón de  Filtro y Cuadro general de Búsqueda",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          }
+        ]
+      },
+      "incidencias": {
+        "total_actual": 15,
+        "por_estado": {
+          "Resuelto": 14,
+          "Pendiente": 1
+        },
+        "cambios": [
+          {
+            "id": "01",
+            "titulo": "RI-01 - Incidencia: Registro de fecha actual/anterior no se visualiza en el campo FechaHora",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "02",
+            "titulo": "RI-02 - Incidencia - Validar hora del Histórico del Chat",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "03",
+            "titulo": "RI-03 - Mejora - Ajustes en el Cierre de Ticket",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "04",
+            "titulo": "RI-04 - Mejora - Ver detalles en el módulo de Auditoría",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "05",
+            "titulo": "RI-05 - Mejora - Ver detalles de las acciones en el módulo de Auditoría",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "06",
+            "titulo": "RI-06 - Mejora - Actualizar conteo de Tickets en el filtrado",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "07",
+            "titulo": "RI-07 - Mejora - Permitir el detalle de los Agentes Conectados y/o Desconectados",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "08",
+            "titulo": "RI-08 - Mejora - La hora del SDK no coincide con la hora del sistema",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "09",
+            "titulo": "RI-09 - Mejora - No envía palabras que incluyan acentos, elimina la letra con acento",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "10",
+            "titulo": "RI-10 - Mejora - Validar que no se envíen mensajes en blanco",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "11",
+            "titulo": "RI-11 - Mejora - Visualizar el nombre del Agente en el SDK",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "12",
+            "titulo": "RI-12 - Mejora - Conversación cerrada pero misma conversación encolada en el módulo Agente",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "13",
+            "titulo": "RI-13 - Mejora - No permite enviar imágenes",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "14",
+            "titulo": "RI-14 - Incidencia - Al generar una nueva plantilla asocia al número incorrecto",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "15",
+            "titulo": "RI-15 - Incidencia - El cuadro de búsqueda general no realiza la búsqueda por los campos mostrados, solo por Nombre",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          }
+        ]
+      }
+    },
+    {
+      "nombre": "Lila - Automotor",
+      "matriz_pruebas": {
+        "total_actual": 0,
+        "por_estado": {},
+        "cambios": []
+      },
+      "incidencias": {
+        "total_actual": 0,
+        "por_estado": {},
+        "cambios": []
+      }
+    },
+    {
+      "nombre": "Automatización QA (interno)",
+      "matriz_pruebas": {
+        "total_actual": 0,
+        "por_estado": {},
+        "cambios": []
+      },
+      "incidencias": {
+        "total_actual": 0,
+        "por_estado": {},
+        "cambios": []
+      }
+    },
+    {
+      "nombre": "CRM Celexx",
+      "matriz_pruebas": {
+        "total_actual": 79,
+        "por_estado": {
+          "Finalizado": 20,
+          "En curso": 28,
+          "Pendiente": 31
+        },
+        "cambios": [
+          {
+            "id": "1",
+            "titulo": "CP - 1 - Crear Cliente",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "2",
+            "titulo": "CP - 2 - Editar Cliente",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "3",
+            "titulo": "CP - 3 - Editar Cliente - Línea de Crédito",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "4",
+            "titulo": "CP - 4 - Eliminar Cliente",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "5",
+            "titulo": "CP - 5 - Gestionar Actividades de un Cliente",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "6",
+            "titulo": "CP - 6 - Gestionar Planificación asociada a un Cliente",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "7",
+            "titulo": "CP - 7 - Gestionar Comentarios en un Cliente",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "8",
+            "titulo": "CP - 8 - Gestionar Adjuntos en un Cliente",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "9",
+            "titulo": "CP - 9 - Gestionar Estadísticas de un Cliente",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "10",
+            "titulo": "CP - 10 - Gestionar Dashboard",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "11",
+            "titulo": "CP - 11 - Crear Actividad",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "12",
+            "titulo": "CP - 12 - Editar Actividad - Gestión",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "13",
+            "titulo": "CP - 13 - Gestionar Actividad",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "14",
+            "titulo": "CP - 14 - Eliminar Actividad",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "15",
+            "titulo": "CP - 15 - Crear Planificación",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "16",
+            "titulo": "CP - 16 - Editar Planificación",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "17",
+            "titulo": "CP - 17 - Gestionar Planificación",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "18",
+            "titulo": "CP - 18 - Eliminar Planificación",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "19",
+            "titulo": "CP - 19 - Crear Agendamiento",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "20",
+            "titulo": "CP - 20 - Gestionar Agendamiento",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "21",
+            "titulo": "CP - 21 - Editar Agendamiento",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "22",
+            "titulo": "CP - 22 - Eliminar / Cancelar Agendamiento",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "23",
+            "titulo": "CP - 23 - Crear Oportunidad",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "24",
+            "titulo": "CP - 24 - Gestionar Oportunidades",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "25",
+            "titulo": "CP - 25 - Editar Oportunidad - Gestión",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "26",
+            "titulo": "CP - 26 - Editar Oportunidad - Tareas/Flujo",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "27",
+            "titulo": "CP - 27 - Validar Ciclo de Aprobación de una Oportunidad",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "28",
+            "titulo": "CP - 28 - Eliminar Oportunidad",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "29",
+            "titulo": "CP - 29 - Gestionar Tablero de Oportunidades",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "30",
+            "titulo": "CP - 30 - Crear Lead",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "31",
+            "titulo": "CP - 31 - Gestionar Leads",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "32",
+            "titulo": "CP - 32 - Gestionar Clientes",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "33",
+            "titulo": "CP - 33 - Editar Lead",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "34",
+            "titulo": "CP - 34 - Eliminar Lead",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "35",
+            "titulo": "CP - 35 - Crear Caso",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "36",
+            "titulo": "CP - 36 - Gestionar Casos",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "37",
+            "titulo": "CP - 37 - Editar Caso",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "38",
+            "titulo": "CP - 38 - Crear Campaña",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "39",
+            "titulo": "CP - 39 - Visualizar Historial de la Oportunidad",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "40",
+            "titulo": "CP - 40 - Solicitar cambio de estado de Oportunidad",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "41",
+            "titulo": "CP - 41 - Gestionar casos excepcionales en Oportunidad",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "42",
+            "titulo": "CP - 42 - Marcar Oportunidad como Ganada",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "43",
+            "titulo": "CP - 43 - Crear Contrato (a partir de una Oportunidad)",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "44",
+            "titulo": "CP - 44 - Editar Oportunidad - Actividades",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "45",
+            "titulo": "CP - 45 - Editar Oportunidad - Planificación",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "46",
+            "titulo": "CP - 46 - Editar Oportunidad - Comentarios",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "47",
+            "titulo": "CP - 47 - Editar Oportunidad - Adjuntos",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "48",
+            "titulo": "CP - 48- Editar Actividad - Comentarios",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "49",
+            "titulo": "CP - 49 - Editar Actividad - Adjuntos",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "50",
+            "titulo": "CP - 50 - Solicitar conversión a Cliente",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "51",
+            "titulo": "CP - 51 - Generar Notificaciones",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "52",
+            "titulo": "CP - 52 - Gestionar Notificaciones",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "53",
+            "titulo": "CP - 53 - Crear Contrato (manual)",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "54",
+            "titulo": "CP - 54 - Editar Contrato - Cambiar estado",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "55",
+            "titulo": "CP - 55 - Gestionar Contratos",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "56",
+            "titulo": "CP - 56 - Gestionar Camapañas",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "57",
+            "titulo": "CP - 57 - Editar Campañas",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "58",
+            "titulo": "CP - 58 - Crear Cotización",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "59",
+            "titulo": "CP - 59 - Gestionar Cotizaciones",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "60",
+            "titulo": "CP - 60 - Editar Cotización - Gestión",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "61",
+            "titulo": "CP - 61 - Generar firma de Contrato",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "62",
+            "titulo": "CP - 62 - Editar Cotización - Comentarios y Adjuntos",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "63",
+            "titulo": "CP - 63 - Crear Presupuesto",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "64",
+            "titulo": "CP - 64 - Gestionar Presupuestos",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "65",
+            "titulo": "CP - 65 - Editar Presupuesto - Gestión",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "66",
+            "titulo": "CP - 66 - Editar Presupuesto - Comentarios y Adjuntos",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "67",
+            "titulo": "CP - 67 - Finalizar Cotización",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "68",
+            "titulo": "CP - 68 - Gestionar Localidades",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "69",
+            "titulo": "CP - 69 - Gestionar Actores",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "70",
+            "titulo": "CP - 70 - Gestionar Productos",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "71",
+            "titulo": "CP - 71 - Gestionar Comercial",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "72",
+            "titulo": "CP - 72 - Gestionar Instrumentos",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "73",
+            "titulo": "CP - 73 - Gestionar Usuarios - Usuarios",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "74",
+            "titulo": "CP - 74 - Gestionar Organización",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "75",
+            "titulo": "CP - 75 - Gestionar Usuarios - Roles",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "76",
+            "titulo": "CP - 76 - Gestionar Usuarios - Grupos",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "77",
+            "titulo": "CP - 77 - Requerimientos de “Leads”",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "78",
+            "titulo": "CP - 78 - Requerimientos de “Clientes”",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "79",
+            "titulo": "CP - 79 - Requerimientos de “Oportunidades”",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          }
+        ]
+      },
+      "incidencias": {
+        "total_actual": 121,
+        "por_estado": {
+          "Resuelto": 82,
+          "Devuelto": 11,
+          "En curso": 2,
+          "Pendiente": 18,
+          "Finalizado": 8
+        },
+        "cambios": [
+          {
+            "id": "1",
+            "titulo": "RI - 1 - Incidencia - Creación de un Cliente",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "2",
+            "titulo": "RI - 2 - Incidencia - Listado de clientes",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "3",
+            "titulo": "RI - 3 - Incidencia - Edición de un Cliente",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "4",
+            "titulo": "RI - 4 - Incidencia - Aplicación de Filtros",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "5",
+            "titulo": "RI - 5 - Incidencia - Tamaño de Listado en Clientes",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "6",
+            "titulo": "RI - 6 - Incidencia - Barra de búsqueda en Clientes",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "7",
+            "titulo": "RI - 7 - Incidencia - Solicitud de Cambio de Estado en un Cliente",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "8",
+            "titulo": "RI - 8 - Incidencia - Creación de Línea de Crédito",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "9",
+            "titulo": "RI - 9 - Incidencia - Eliminación de un Cliente",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "10",
+            "titulo": "RI - 10 - Incidencia - Especificaciones en una Actividad",
+            "estado_actual": "Devuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "11",
+            "titulo": "RI - 11 - Incidencia - Duplicación de Agendamientos al filtrar",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "12",
+            "titulo": "RI - 12 - Incidencia - Ordenamiento en Agendamientos (Vista Lista)",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "13",
+            "titulo": "RI - 13 - Incidencia - Cancelación de Agendamiento",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "14",
+            "titulo": "RI - 14 - Incidencia - Creación de Caso",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "15",
+            "titulo": "RI - 15 - Incidencia - Carga de listas desplegables en la creación de un Caso",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "16",
+            "titulo": "RI - 16 - Incidencia - Creación de caso permite duplicaciones",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "17",
+            "titulo": "RI - 17 - Incidencia - Barra de búsqueda en Casos",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "18",
+            "titulo": "RI - 18 - Incidencia - Ordenamiento en Casos",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "19",
+            "titulo": "RI - 19 - Incidencia - Aplicación de filtros por estados en Casos",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "20",
+            "titulo": "RI - 20 - Incidencia - Creación de cliente permite duplicaciones",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "21",
+            "titulo": "RI - 21 - Incidencia - Acceso a módulos",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "22",
+            "titulo": "RI - 22 - Incidencia - Creación de Oportunidad",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "23",
+            "titulo": "RI - 23 - Incidencia - Tamaño de Listado en Oportunidades",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "24",
+            "titulo": "RI - 24 - Incidencia - Aplicación de filtros en Oportunidades",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "25",
+            "titulo": "RI - 25 - Incidencia - Aplicación de filtros (Estados) en Oportunidades",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "26",
+            "titulo": "RI - 26 - Mejora - Campos obligatorios en creación de Caso",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "27",
+            "titulo": "RI - 27 - Mejora - Filtros por estados en Casos",
+            "estado_actual": "Devuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "28",
+            "titulo": "RI - 28 - Incidencia - Coincidencia en filtros de Estados con Análisis",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "29",
+            "titulo": "RI - 29 - Incidencia - Acciones en Estado de Cuenta de un Cliente",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "30",
+            "titulo": "RI - 30 - Mejora - Visualización de campos en formato “disabled”",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "31",
+            "titulo": "RI - 31 - Mejora - Botones de menús no reflejan estado activo",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "32",
+            "titulo": "RI - 32 - Mejora - Campos de “Ciudad” representan Localidad",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "33",
+            "titulo": "RI - 33 - Incidencia - Añadir contactos a clientes no muestra todos los campos",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "34",
+            "titulo": "RI - 34 - Mejora - Lista desplegable en creación de casos en submódulo de casos",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "35",
+            "titulo": "RI - 35 - Mejora - Campos en Creación de Oportunidad",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "36",
+            "titulo": "RI - 36 - Incidencia - Campos en Estado de Cuenta",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "37",
+            "titulo": "RI - 37 - Mejora - Visualización de registros luego de ser creados",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "38",
+            "titulo": "RI - 38 - Incidencia - Edición de una Oportunidad en un estado Final",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "39",
+            "titulo": "RI - 39 - Incidencia - Desbordamiento de campos en Oportunidades",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "40",
+            "titulo": "RI - 40 - Incidencia - Comentarios en Oportunidades",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "41",
+            "titulo": "RI - 41 - Incidencia - Adjuntos en Oportunidades",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "42",
+            "titulo": "RI - 42 - Incidencia - Actividades en Oportunidades",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "43",
+            "titulo": "RI - 43 - Incidencia - Eliminación de una Oportunidad",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "44",
+            "titulo": "RI - 44 - Incidencia - Filtros por Estados en Oportunidad no engloban todos los Estados",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "45",
+            "titulo": "RI - 45 - Incidencia - Campos obligatorios en creación de Actividad",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "46",
+            "titulo": "RI - 46 - Incidencia - Comentarios en Actividades",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "47",
+            "titulo": "RI - 47 - Incidencia - Funcionalidad de Leads",
+            "estado_actual": "Devuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "48",
+            "titulo": "RI - 48 - Incidencia - Eliminación de un Lead",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "49",
+            "titulo": "RI - 49 - Incidencia - Edición de un Lead",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "50",
+            "titulo": "RI - 50 - Incidencia - Conversión de Lead a Cliente",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "51",
+            "titulo": "RI - 51 - Incidencia - Edición de Miembros en una Actividad",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "52",
+            "titulo": "RI - 52 - Incidencia - Aplicación de filtros por Estados en Actividades",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "53",
+            "titulo": "RI - 53 - Mejora - Visualización de Documentos Adjuntos",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "54",
+            "titulo": "RI - 54 - Incidencia - Error en Agendamientos de Septiembre",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "55",
+            "titulo": "RI - 55 - Incidencia - Funcionalidad de Notificaciones",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "56",
+            "titulo": "RI - 56 - Incidencia - Visualización de Leads creados",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "57",
+            "titulo": "RI - 57 - Incidencia - Clientes en creación de Contrato",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "58",
+            "titulo": "RI - 58 - Incidencia - Edición de Contratos genera duplicación de registros",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "59",
+            "titulo": "RI - 59 - Incidencia - Fechas en edición de Contrato",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "60",
+            "titulo": "RI - 60 - Mejora - Botones en Notificaciones",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "61",
+            "titulo": "RI - 61 - Incidencia - Validación de rango de fechas en creación de Contrato",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "62",
+            "titulo": "RI - 62 - Incidencia - Validación de campos numéricos en creación de Contrato",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "63",
+            "titulo": "RI - 63 - Incidencia - Campos de búsqueda en Contratos",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "64",
+            "titulo": "RI - 64 - Incidencia - Campos obligatorios en Campañas",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "65",
+            "titulo": "RI - 65 - Incidencia - Solicitudes múltiples para un mismo Lead",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "66",
+            "titulo": "RI - 66 - Incidencia - Pasos en creación de Caso (Atención al Cliente)",
+            "estado_actual": "Devuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "67",
+            "titulo": "RI - 67 - Incidencia - Creación de Tipo de Caso: Ticketing",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "68",
+            "titulo": "RI - 68 - Incidencia - Campos obligatorios en creación de Caso: Atención al cliente",
+            "estado_actual": "Devuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "69",
+            "titulo": "RI - 69 - Incidencia - Mis Actividades",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "70",
+            "titulo": "RI - 70 - Incidencia - Actividades Supervisadas/Participadas",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "71",
+            "titulo": "RI - 71 - Incidencia - Participantes en creación de Agendamiento",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "72",
+            "titulo": "RI - 72 - Incidencia - Aplicación de Filtros en Agendamientos",
+            "estado_actual": "Devuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "73",
+            "titulo": "RI - 73 - Incidencia - Navegación entre módulos posible al agregar un miembro",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "74",
+            "titulo": "RI - 74 - Incidencia - Ordenamiento en Actividades",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "75",
+            "titulo": "RI - 75 - Incidencia - Flujo para finalización de una Actividad",
+            "estado_actual": "Devuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "76",
+            "titulo": "RI - 76 - Incidencia - Longitud de campos en creación de Cotización",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "77",
+            "titulo": "RI - 77 - Incidencia - Gestión de Cotización - Datos de la Oportunidad",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "78",
+            "titulo": "RI - 78 - Incidencia - Campos obligatorios en creación de Cotización",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "79",
+            "titulo": "RI - 79 - Incidencia - Botón para eliminar Cotizaciones",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "80",
+            "titulo": "RI - 80 - Incidencia - Columnas en listado de Cotizaciones - Formulario",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "81",
+            "titulo": "RI - 81 - Incidencia - Cantidad de registros en Lista de Contratos",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "82",
+            "titulo": "RI - 82 - Incidencia - Gestión de Cotización - Botón Partners",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "83",
+            "titulo": "RI - 83 - Incidencia - Ordenamiento en Cotizaciones",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "84",
+            "titulo": "RI - 84 - Incidencia - Mensaje al seleccionar botón “Nueva Oportunidad” - Creación de Oportunidad",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "85",
+            "titulo": "RI - 85 - Incidencia - Estado final en Cotizaciones",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "86",
+            "titulo": "RI - 86 - Incidencia - Cerrar/Cancelar Cotización",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "87",
+            "titulo": "RI - 87 - Incidencia - Campos en listado de Cotizaciones",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "88",
+            "titulo": "RI - 88 - Mejora - Mensaje de error en creación de usuario duplicado",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "89",
+            "titulo": "RI - 89 - Incidencia - Ordenamiento en Agendamientos - Vista Lista",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "90",
+            "titulo": "RI - 90 - Incidencia - Ordenamiento en Administración",
+            "estado_actual": "Devuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "91",
+            "titulo": "RI - 91 - Incidencia - Límite de caracteres en Administración - Usuarios - Usuarios",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "92",
+            "titulo": "RI - 92 - Incidencia - Botón de retroceso en Agendamientos",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "93",
+            "titulo": "RI - 93 - Incidencia - Contacto en creación de Caso - Atención al Cliente",
+            "estado_actual": "Devuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "94",
+            "titulo": "RI - 94 - Incidencia - Eliminación de Usuarios",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "95",
+            "titulo": "RI - 95 - Mejora - “Teléfono” en Datos de Usuario",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "96",
+            "titulo": "RI - 96 - Incidencia - Ingreso al sistema sin rol",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "97",
+            "titulo": "RI - 97 - Incidencia - Nombre de usuario duplicado en perfil",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "98",
+            "titulo": "RI - 98 - Incidencia - Credenciales en Usuario",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "99",
+            "titulo": "RI - 99 - Incidencia - Perfil de Usuario",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "100",
+            "titulo": "RI - 100 - Incidencia - Versiones del Sistema",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "101",
+            "titulo": "RI - 101 - Incidencia - Cancelación múltiple de Agendamientos",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "102",
+            "titulo": "RI - 102 - Incidencia - Adjunto de archivos luego de cancelar un Agendamiento",
+            "estado_actual": "Devuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "103",
+            "titulo": "RI - 103 - Mejora - Alineación de mensajes sobre campos obligatorios en creación de Caso - Atención al Cliente",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "104",
+            "titulo": "RI - 104 - Incidencia - Mensaje de error al intentar finalizar una solicitud de línea de crédito o de cambio de estado",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "105",
+            "titulo": "RI - 105 - Mejora - Scroll en Casos",
+            "estado_actual": "Devuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "106",
+            "titulo": "RI - 106 - Incidencia - Datos de Listas desplegables en Creación de Agendamientos",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "107",
+            "titulo": "RI - 107 - Mejora - Mensaje de observación por cancelación en Agendamientos",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "108",
+            "titulo": "RI - 108 - Incidencia - Columnas Motivo y Canal en vista Lista",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "109",
+            "titulo": "RI - 109 - Incidencia - Duplicación de Solicitud de Línea de Crédito",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "110",
+            "titulo": "RI - 110 - Incidencia - Creación de Solicitud de Línea de Crédito o Cambio de Estado no genera Actividad",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "111",
+            "titulo": "RI - 111 - Mejora - Mensaje de Error en Creación de roles",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "112",
+            "titulo": "RI - 112 - Mejora - Error al ir a la página de inicio - Dashboard",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "113",
+            "titulo": "RI - 113 - Incidencia - Finalización de una Oportunidad sin haber completado todos los pasos",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "114",
+            "titulo": "RI - 114 - Incidencia - Oportunidades - punto 2",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "115",
+            "titulo": "RI - 115 - Incidencia - Logo en inicio de sesión",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "116",
+            "titulo": "RI - 116 - Mejora - Oportunidades - punto 6",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "117",
+            "titulo": "RI - 117 - Incidencia - Paginación de Actividades",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "118",
+            "titulo": "RI - 118 - Incidencia - Campos obligatorios en creación de Lead",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "119",
+            "titulo": "RI - 119 - Incidencia - Nombre en pestañas",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "120",
+            "titulo": "RI - 120 - Incidencia - Leads “vacíos”",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "121",
+            "titulo": "RI - 121 - Estados de Leads",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          }
+        ]
+      }
+    },
+    {
+      "nombre": "Pagaré V3",
+      "matriz_pruebas": {
+        "total_actual": 15,
+        "por_estado": {
+          "Finalizado": 15
+        },
+        "cambios": [
+          {
+            "id": "01",
+            "titulo": "CP-01 - Emisión de DTE",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "02",
+            "titulo": "CP-02 - Aprobación inicial",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "03",
+            "titulo": "CP-03 - Envío de OTP",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "04",
+            "titulo": "CP-04 - Firma exitosa",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "05",
+            "titulo": "CP-05 - Firma fallida",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "06",
+            "titulo": "CP-06 - Cancelación solicitada",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "07",
+            "titulo": "CP-07 - Aprobación Cancelación",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "08",
+            "titulo": "CP-08 - Anulación solicitada",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "09",
+            "titulo": "CP-09 - Aprobación Anulación",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "10",
+            "titulo": "CP-10 - Endoso exitoso",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "11",
+            "titulo": "CP-11 - Endoso rechazado",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "12",
+            "titulo": "CP-12 - Rechazo de aprobación",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "13",
+            "titulo": "CP-13 - Rechazo cancelación",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "14",
+            "titulo": "CP-14 - Rechazo anulación",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "15",
+            "titulo": "CP-15 - Exportar PDF y EXCEL",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          }
+        ]
+      },
+      "incidencias": {
+        "total_actual": 2,
+        "por_estado": {
+          "Resuelto": 2
+        },
+        "cambios": [
+          {
+            "id": "01",
+            "titulo": "RI-01-Incidencia-El endpoint no respeta los filtros de fechas enviados en el request",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "02",
+            "titulo": "RI-02-Incidencia-El evento de endoso no se registra en la tabla de auditoría (AUDIT_LOG_ENTITY).",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          }
+        ]
+      }
+    },
+    {
+      "nombre": "Flujos JBPM",
+      "matriz_pruebas": {
+        "total_actual": 3,
+        "por_estado": {
+          "En curso": 1,
+          "Pendiente": 1,
+          "Finalizado": 1
+        },
+        "cambios": [
+          {
+            "id": "0",
+            "titulo": "Prueba 02",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "0",
+            "titulo": "Prueba 01",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "0",
+            "titulo": "Prueba 03",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          }
+        ]
+      },
+      "incidencias": {
+        "total_actual": 5,
+        "por_estado": {
+          "En curso": 5
+        },
+        "cambios": [
+          {
+            "id": "0",
+            "titulo": "Incidencia 02",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "0",
+            "titulo": "Incidencia 01",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "0",
+            "titulo": "Incidencia 03",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "0",
+            "titulo": "Incidencia 04",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "0",
+            "titulo": "incidencia 04",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          }
+        ]
+      }
+    },
+    {
+      "nombre": "HRM - Talento humano - Fase 2",
+      "matriz_pruebas": {
+        "total_actual": 3,
+        "por_estado": {
+          "Finalizado": 1,
+          "En curso": 1,
+          "Pendiente": 1
+        },
+        "cambios": [
+          {
+            "id": "0",
+            "titulo": "Prueba 03",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "0",
+            "titulo": "Prueba 02",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "0",
+            "titulo": "Prueba 01",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          }
+        ]
+      },
+      "incidencias": {
+        "total_actual": 5,
+        "por_estado": {
+          "En curso": 5
+        },
+        "cambios": [
+          {
+            "id": "0",
+            "titulo": "incidencia 04",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "0",
+            "titulo": "Incidencia 01",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "0",
+            "titulo": "Incidencia 04",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "0",
+            "titulo": "Incidencia 03",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "0",
+            "titulo": "Incidencia 02",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          }
+        ]
+      }
+    },
+    {
+      "nombre": "CRM-Continental-Sostenimiento-Octubre-2025",
+      "matriz_pruebas": {
+        "total_actual": 8,
+        "por_estado": {
+          "En curso": 1,
+          "Finalizado": 7
+        },
+        "cambios": [
+          {
+            "id": "001",
+            "titulo": "CP-001: Parametrización de estado por tipificación (Aviso de Viaje → CERRADO)",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "002",
+            "titulo": "CP-002: Pantalla de Edicion/Vista detalle de la reglas (edición/deshabilitar)",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "003",
+            "titulo": "CP-003: Backend reflejado en UI (regla creada en BEPSA visible/aplicable)",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "004",
+            "titulo": "CP-004: Validación al crear caso – no permitir resolutor BEPSA con estado Pendiente",
+            "estado_actual": "En curso",
+            "estado_anterior": ""
+          },
+          {
+            "id": "005",
+            "titulo": "CP-005: Verificar que permita editar los campos seleccionados de bepsa y no afecte a los casos de Conti",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "006",
+            "titulo": "CP-006: Verificar editar los casos en ambiente conti y que no afecte al caso enviado a bepsa.",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "007",
+            "titulo": "CP-007: Cambio de estado desde Bepsa actualiza área resolutora por área del creador",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          },
+          {
+            "id": "008",
+            "titulo": "CP-008: Endpoint de edición de estado refleja reglas y cambio de área",
+            "estado_actual": "Finalizado",
+            "estado_anterior": ""
+          }
+        ]
+      },
+      "incidencias": {
+        "total_actual": 1,
+        "por_estado": {
+          "Resuelto": 1
+        },
+        "cambios": [
+          {
+            "id": "1",
+            "titulo": "RI - 1 - Incidencia - Al crear un caso se visualiza un error de campo vacio.",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          }
+        ]
+      }
+    }
+  ]
+}

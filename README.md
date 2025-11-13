@@ -1,6 +1,6 @@
-# 📊 Generador de Reportes QA v2.0
+# 📊 Sistema de Reportes QA v3.1
 
-> Sistema automatizado para generar reportes gerenciales de QA desde Notion API
+> Sistema automatizado de reportes QA con extracción desde Notion API
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3.3-blue)](https://www.typescriptlang.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-18%2B-green)](https://nodejs.org/)
@@ -8,46 +8,163 @@
 
 ## 🎯 ¿Qué hace este proyecto?
 
-Extrae automáticamente datos de **casos de prueba e incidencias** desde tus bases de datos de Notion, los procesa y genera **reportes ejecutivos listos para presentar a gerencia**.
+Extrae automáticamente datos de **casos de prueba (CP)** e **incidencias (RI)** desde tus bases de datos de Notion y genera reportes estructurados en formato JSON.
 
-### ✨ Características principales
+### ✨ Características v3.1
 
-- 🚀 **Extracción automática** desde múltiples proyectos en Notion
-- 📈 **Reportes gerenciales** en formato TXT y JSON  
-- 🛡️ **Manejo robusto de errores** con reintentos inteligentes
-- 📊 **Estadísticas completas** por proyecto y globales
-- 🔄 **Rate limiting** y optimización de API calls
-- 🎨 **Salida profesional** optimizada para gerencia
+- 📊 **2 Tipos de Reportes**: Diario (cambios) + Semanal (métricas)
+- 🔢 **Ordenamiento por ID**: Numérico (CP-7 antes de CP-10)
+- 📈 **Reporte Semanal**: Solo 4 métricas clave, sin comparaciones
+- 📝 **Reporte Diario**: Estado actual de todos los items ordenados
+- 🌎 **Timezone Configurable**: America/Asuncion por defecto
+- 🛡️ **Manejo Robusto**: Continúa aunque falle un proyecto
+- ⚡ **Rate Limiting**: Optimización de llamadas a API
 
-## 🏗️ Estructura del Proyecto
-
-```
-📁 Reporte-QA/
-├── 📄 main.ts                    # 🚀 Punto de entrada principal
-├── 📁 src/                       # 🔧 Código fuente optimizado
-│   ├── 📄 config.ts              # ⚙️ Configuración centralizada  
-│   ├── 📁 domain/                # 🏢 Lógica de negocio
-│   ├── 📁 notion/                # 🔗 Integración con Notion API
-│   ├── 📁 report/                # 📊 Generación de reportes
-│   └── 📁 storage/               # 💾 Persistencia de datos
-├── 📁 scripts/                   # 🛠️ Herramientas auxiliares
-└── 📁 .archive/                  # 📦 Archivos obsoletos
-```
-
-## ⚡ Inicio Rápido
+## 🚀 Inicio Rápido
 
 ### 1️⃣ Instalación
 
-```bash
-# Clonar el repositorio
-git clone <tu-repo>
-cd Reporte-QA
-
+```powershell
 # Instalar dependencias
-npm run setup
+npm install
+
+# Compilar TypeScript
+npm run build
 ```
 
 ### 2️⃣ Configuración
+
+Crear archivo `.env` con:
+```env
+NOTION_TOKEN=secret_xxx
+NOTION_PROJECTS_DB_ID=tu_database_id
+TIMEZONE=America/Asuncion
+```
+
+Verificar configuración:
+```powershell
+npm run validate
+```
+
+### 3️⃣ Uso
+
+**Generar Reporte Diario** (estado actual + cambios ordenados):
+```powershell
+npm run generate:daily
+```
+→ Genera `reports/latest-daily.json`
+
+**Generar Reporte Semanal** (4 métricas clave):
+```powershell
+npm run generate:weekly
+```
+→ Genera `reports/semanales/latest-weekly.json`
+
+## 📊 Estructura de Reportes
+
+### Reporte Diario
+```json
+{
+  "fecha": "2025-11-13",
+  "proyectos": [{
+    "nombre": "Proyecto X",
+    "matriz_pruebas": {
+      "total_actual": 45,
+      "cambios": [
+        {"id": "01", "titulo": "CP-01 - ...", "estado_actual": "Finalizado"}
+      ]
+    }
+  }]
+}
+```
+
+### Reporte Semanal
+```json
+{
+  "semana": "2025-W46",
+  "proyectos": [{
+    "nombre": "Proyecto X",
+    "casos_agregados_semana": 45,
+    "incidencias_devueltas_semana": 11,
+    "casos_prueba_finalizados_semana": 20,
+    "casos_prueba_pendientes": 31
+  }]
+}
+```
+
+## 📁 Estructura del Proyecto
+
+```
+src/
+├── domain/               # Tipos y lógica de negocio
+│   └── tipos-reportes-simple.ts  # Tipos v3.1
+├── notion/               # Integración Notion API
+│   ├── client.ts         # Cliente seguro
+│   └── fetch.ts          # Fetcher con rate limiting
+├── report/               # Generadores de reportes
+│   ├── json-generator-daily-simple.ts   # Reporte diario
+│   └── json-generator-weekly-simple.ts  # Reporte semanal
+└── index.ts              # CLI principal
+
+reports/                  # Reportes generados
+├── latest-daily.json
+└── semanales/
+    └── latest-weekly.json
+```
+
+## 🔧 Comandos Disponibles
+
+```powershell
+# Generar reportes
+npm run generate:daily        # Reporte diario
+npm run generate:weekly       # Reporte semanal
+
+# Utilidades
+npm run validate             # Validar configuración
+npm run build                # Compilar TypeScript
+npm run lint                 # Linter
+npm run format               # Formatear código
+```
+
+## 📚 Documentación
+
+Para documentación completa, ver **[DOCUMENTACION-TECNICA.md](./DOCUMENTACION-TECNICA.md)**
+
+Incluye:
+- Arquitectura del sistema
+- Estructuras de datos detalladas
+- Roadmap (v3.2 con sistema de snapshots)
+- Notas técnicas
+
+## 🔮 Próximas Mejoras (v3.2)
+
+- Sistema de snapshots diarios para comparación real
+- Campo `estado_anterior` con valor real (no vacío)
+- Detección de items nuevos, modificados y eliminados
+- Métricas semanales precisas basadas en diffs
+
+## 📝 Changelog
+
+### v3.1.0 - 2025-11-13
+- ✨ Nuevos generadores simplificados (daily + weekly)
+- 🔧 CLI con comandos `generate:daily` y `generate:weekly`
+- 📊 JSON simplificado sin buckets complejos
+- 🔢 Ordenamiento numérico por ID corregido
+- 📚 Documentación consolidada
+
+### v2.0.0 - 2025-11-10
+- Generador JSON con buckets por estado
+- Rate limiting y manejo de errores
+- Soporte múltiples proyectos
+
+## 👤 Autor
+
+**Lucas Zaracho**  
+Sistema de Reportes QA - v3.1.0
+
+---
+
+*Para más detalles, consulta la [documentación técnica completa](./DOCUMENTACION-TECNICA.md)*
 
 1. **Configurar variables de entorno:**
 ```bash

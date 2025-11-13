@@ -1,6 +1,6 @@
 {
   "name": "reporte-qa-notion",
-  "version": "1.0.0",
+  "version": "3.1.0",
   "description": "Generador de reportes QA comparativos desde Notion API",
   "main": "dist/index.js",
   "type": "module",
@@ -8,6 +8,10 @@
     "build": "tsc",
     "start": "npm run build && node dist/index.js",
     "dev": "tsx main.ts",
+    "generate": "npm run build && node dist/index.js generate",
+    "generate:daily": "npm run build && node dist/index.js generate:daily",
+    "generate:weekly": "npm run build && node dist/index.js generate:weekly",
+    "validate": "npm run build && node dist/index.js validate",
     "reporte": "tsx main.ts",
     "reporte:json": "tsx scripts/generar-reporte-datos.ts",
     "reporte:limpio": "tsx scripts/generar-reporte-limpio.ts",
