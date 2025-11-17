@@ -1,5 +1,5 @@
 {
-  "fecha": "2025-11-13",
+  "fecha_hora": "2025-11-17 13:30:58",
   "zona_horaria": "America/Asuncion",
   "proyectos": [
     {
@@ -252,7 +252,7 @@
           },
           {
             "id": "41",
-            "titulo": "CP- 41 - Validar que se visualicen las conversaciones en el MA de cobranza",
+            "titulo": "CP-41 - Validar que se visualicen las conversaciones en el MA de cobranza",
             "estado_actual": "Finalizado",
             "estado_anterior": ""
           },
@@ -264,7 +264,7 @@
           },
           {
             "id": "43",
-            "titulo": "CP- 43 - Confirmar que los tiempos modificados se ejecuten correctamente",
+            "titulo": "CP-43 - Confirmar que los tiempos modificados se ejecuten correctamente",
             "estado_actual": "Finalizado",
             "estado_anterior": ""
           },
@@ -413,8 +413,8 @@
       "matriz_pruebas": {
         "total_actual": 79,
         "por_estado": {
-          "Finalizado": 20,
-          "En curso": 28,
+          "Finalizado": 21,
+          "En curso": 27,
           "Pendiente": 31
         },
         "cambios": [
@@ -883,7 +883,7 @@
           {
             "id": "78",
             "titulo": "CP - 78 - Requerimientos de “Clientes”",
-            "estado_actual": "En curso",
+            "estado_actual": "Finalizado",
             "estado_anterior": ""
           },
           {
@@ -895,13 +895,12 @@
         ]
       },
       "incidencias": {
-        "total_actual": 121,
+        "total_actual": 124,
         "por_estado": {
-          "Resuelto": 82,
-          "Devuelto": 11,
+          "Resuelto": 90,
+          "Devuelto": 12,
           "En curso": 2,
-          "Pendiente": 18,
-          "Finalizado": 8
+          "Pendiente": 20
         },
         "cambios": [
           {
@@ -1105,7 +1104,7 @@
           {
             "id": "34",
             "titulo": "RI - 34 - Mejora - Lista desplegable en creación de casos en submódulo de casos",
-            "estado_actual": "Finalizado",
+            "estado_actual": "Devuelto",
             "estado_anterior": ""
           },
           {
@@ -1183,7 +1182,7 @@
           {
             "id": "47",
             "titulo": "RI - 47 - Incidencia - Funcionalidad de Leads",
-            "estado_actual": "Devuelto",
+            "estado_actual": "Resuelto",
             "estado_anterior": ""
           },
           {
@@ -1219,7 +1218,7 @@
           {
             "id": "53",
             "titulo": "RI - 53 - Mejora - Visualización de Documentos Adjuntos",
-            "estado_actual": "Finalizado",
+            "estado_actual": "Resuelto",
             "estado_anterior": ""
           },
           {
@@ -1561,13 +1560,13 @@
           {
             "id": "110",
             "titulo": "RI - 110 - Incidencia - Creación de Solicitud de Línea de Crédito o Cambio de Estado no genera Actividad",
-            "estado_actual": "Pendiente",
+            "estado_actual": "Resuelto",
             "estado_anterior": ""
           },
           {
             "id": "111",
             "titulo": "RI - 111 - Mejora - Mensaje de Error en Creación de roles",
-            "estado_actual": "Finalizado",
+            "estado_actual": "Resuelto",
             "estado_anterior": ""
           },
           {
@@ -1603,31 +1602,49 @@
           {
             "id": "117",
             "titulo": "RI - 117 - Incidencia - Paginación de Actividades",
-            "estado_actual": "Finalizado",
+            "estado_actual": "Resuelto",
             "estado_anterior": ""
           },
           {
             "id": "118",
             "titulo": "RI - 118 - Incidencia - Campos obligatorios en creación de Lead",
-            "estado_actual": "Finalizado",
+            "estado_actual": "Resuelto",
             "estado_anterior": ""
           },
           {
             "id": "119",
             "titulo": "RI - 119 - Incidencia - Nombre en pestañas",
-            "estado_actual": "Finalizado",
+            "estado_actual": "Devuelto",
             "estado_anterior": ""
           },
           {
             "id": "120",
             "titulo": "RI - 120 - Incidencia - Leads “vacíos”",
-            "estado_actual": "Finalizado",
+            "estado_actual": "Resuelto",
             "estado_anterior": ""
           },
           {
             "id": "121",
             "titulo": "RI - 121 - Estados de Leads",
-            "estado_actual": "Finalizado",
+            "estado_actual": "Resuelto",
+            "estado_anterior": ""
+          },
+          {
+            "id": "122",
+            "titulo": "RI - 122 - Incidencia - Fechas en Solicitud de Línea de Crédito",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "123",
+            "titulo": "RI - 123 - Incidencia - Rechazo de una Solicitud",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "124",
+            "titulo": "RI - 124 - Incidencia - Asignación de Actividades",
+            "estado_actual": "Pendiente",
             "estado_anterior": ""
           }
         ]
@@ -1826,28 +1843,218 @@
     {
       "nombre": "HRM - Talento humano - Fase 2",
       "matriz_pruebas": {
-        "total_actual": 3,
+        "total_actual": 35,
         "por_estado": {
-          "Finalizado": 1,
-          "En curso": 1,
-          "Pendiente": 1
+          "Pendiente": 35
         },
         "cambios": [
           {
-            "id": "0",
-            "titulo": "Prueba 03",
-            "estado_actual": "Finalizado",
+            "id": "01",
+            "titulo": "CP - 01 - Crear Funcionario",
+            "estado_actual": "Pendiente",
             "estado_anterior": ""
           },
           {
-            "id": "0",
-            "titulo": "Prueba 02",
-            "estado_actual": "En curso",
+            "id": "02",
+            "titulo": "CP - 02 - Gestionar Funcionarios",
+            "estado_actual": "Pendiente",
             "estado_anterior": ""
           },
           {
-            "id": "0",
-            "titulo": "Prueba 01",
+            "id": "03",
+            "titulo": "CP - 03 - Editar Funcionario",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "04",
+            "titulo": "CP - 04 - Gestionar Vacaciones",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "05",
+            "titulo": "CP - 05 -Aprobar/Anular registro de Vacaciones",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "06",
+            "titulo": "CP - 06 - Crear Cambio de cargo",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "07",
+            "titulo": "CP - 07 - Gestionar Cambios de cargo",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "08",
+            "titulo": "CP - 08 - Anular/Aprobar Cambio de cargo",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "09",
+            "titulo": "CP - 09 - Crear Recategorización salarial",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "10",
+            "titulo": "CP - 10 - Gestionar Recategorizaciones salariales",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "11",
+            "titulo": "CP - 11 - Aprobar/Anular Recategorización salarial",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "12",
+            "titulo": "CP - 12 - Crear Solicitud de Vacaciones",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "13",
+            "titulo": "CP - 13 - Gestionar Solicitudes de Vacaciones",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "14",
+            "titulo": "CP - 14 - Aprobar/Anular Solicitud de Vacaciones",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "15",
+            "titulo": "CP - 15 - Crear Solicitud de Permiso",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "16",
+            "titulo": "CP - 16 - Gestionar Solicitudes de Permisos",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "17",
+            "titulo": "CP - 17 - Aprobar/Anular Solicitud de Permiso",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "18",
+            "titulo": "CP - 18 - Gestionar Listado de Facturación / Recalcular Periodo",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "19",
+            "titulo": "CP - 19 - Iniciar Nuevo Periodo - Facturación",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "20",
+            "titulo": "CP - 20 - Cerrar Periodo - Facturación",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "21",
+            "titulo": "CP - 21 - Exportar Excel - Facturación",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "22",
+            "titulo": "CP - 22 - Gestionar Listado de Salarios - Recalcular Periodo",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "23",
+            "titulo": "CP - 23 - Iniciar Nuevo Periodo - Salarios",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "24",
+            "titulo": "CP - 24 - Cerrar Periodo - Salarios",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "25",
+            "titulo": "CP - 25 - Exportar Excel - Salarios",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "26",
+            "titulo": "CP - 26 - Gestionar Conceptos",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "27",
+            "titulo": "CP - 27 - Crear Concepto",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "28",
+            "titulo": "CP - 28 - Editar Conceptos",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "29",
+            "titulo": "CP - 29 - Asignar/Desasignar Conceptos masivamente",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "30",
+            "titulo": "CP - 30 - Crear Grupo",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "31",
+            "titulo": "CP - 31 - Gestionar Grupos",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "32",
+            "titulo": "CP - 32 - Crear Subgrupo",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "33",
+            "titulo": "CP - 33 - Gestionar Subgrupos",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "34",
+            "titulo": "CP - 34 - Gestionar Menú de Inicio",
+            "estado_actual": "Pendiente",
+            "estado_anterior": ""
+          },
+          {
+            "id": "35",
+            "titulo": "CP - 35 - Gestionar Perfil del Usuario",
             "estado_actual": "Pendiente",
             "estado_anterior": ""
           }
@@ -1887,80 +2094,6 @@
             "id": "0",
             "titulo": "Incidencia 02",
             "estado_actual": "En curso",
-            "estado_anterior": ""
-          }
-        ]
-      }
-    },
-    {
-      "nombre": "CRM-Continental-Sostenimiento-Octubre-2025",
-      "matriz_pruebas": {
-        "total_actual": 8,
-        "por_estado": {
-          "En curso": 1,
-          "Finalizado": 7
-        },
-        "cambios": [
-          {
-            "id": "001",
-            "titulo": "CP-001: Parametrización de estado por tipificación (Aviso de Viaje → CERRADO)",
-            "estado_actual": "Finalizado",
-            "estado_anterior": ""
-          },
-          {
-            "id": "002",
-            "titulo": "CP-002: Pantalla de Edicion/Vista detalle de la reglas (edición/deshabilitar)",
-            "estado_actual": "Finalizado",
-            "estado_anterior": ""
-          },
-          {
-            "id": "003",
-            "titulo": "CP-003: Backend reflejado en UI (regla creada en BEPSA visible/aplicable)",
-            "estado_actual": "Finalizado",
-            "estado_anterior": ""
-          },
-          {
-            "id": "004",
-            "titulo": "CP-004: Validación al crear caso – no permitir resolutor BEPSA con estado Pendiente",
-            "estado_actual": "En curso",
-            "estado_anterior": ""
-          },
-          {
-            "id": "005",
-            "titulo": "CP-005: Verificar que permita editar los campos seleccionados de bepsa y no afecte a los casos de Conti",
-            "estado_actual": "Finalizado",
-            "estado_anterior": ""
-          },
-          {
-            "id": "006",
-            "titulo": "CP-006: Verificar editar los casos en ambiente conti y que no afecte al caso enviado a bepsa.",
-            "estado_actual": "Finalizado",
-            "estado_anterior": ""
-          },
-          {
-            "id": "007",
-            "titulo": "CP-007: Cambio de estado desde Bepsa actualiza área resolutora por área del creador",
-            "estado_actual": "Finalizado",
-            "estado_anterior": ""
-          },
-          {
-            "id": "008",
-            "titulo": "CP-008: Endpoint de edición de estado refleja reglas y cambio de área",
-            "estado_actual": "Finalizado",
-            "estado_anterior": ""
-          }
-        ]
-      },
-      "incidencias": {
-        "total_actual": 1,
-        "por_estado": {
-          "Resuelto": 1
-        },
-        "cambios": [
-          {
-            "id": "1",
-            "titulo": "RI - 1 - Incidencia - Al crear un caso se visualiza un error de campo vacio.",
-            "estado_actual": "Resuelto",
             "estado_anterior": ""
           }
         ]

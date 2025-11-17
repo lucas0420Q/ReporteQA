@@ -1,7 +1,6 @@
 /**
  * Generador de reporte diario simplificado
- * VERSION 1: Solo estado actual, sin comparación (para testing inicial)
- * TODO: Agregar sistema de diffs en v2
+ * VERSION 2: Con comparación real usando snapshots y días hábiles
  */
 
 import { NotionFetcher } from '../notion/fetch.js';
@@ -16,12 +15,22 @@ import {
   ProyectoDiarioSimple, 
   ItemCambio 
 } from '../domain/tipos-reportes-simple.js';
+import { obtenerFechaHoraActual } from '../domain/date-utils.js';
+import { 
+  SnapshotManager, 
+  ProyectoSnapshot, 
+  SnapshotCompleto,
+  SnapshotItem 
+} from '../domain/snapshot-manager.js';
+import { DiffEngine } from '../domain/diff-engine-v2.js';
 import { writeFileSync, existsSync, mkdirSync } from 'fs';
 import { join } from 'path';
 
 export class JSONGeneratorDailySimple {
   private readonly fetcher: NotionFetcher;
-  private readonly reportsDir = './reports';
+  private readonly baseReportsDir = './reports';
+  private readonly snapshotManager: SnapshotManager;
+  private readonly diffEngine: DiffEngine;
 
   private readonly defaultConfig: PropertyConfig = {
     tituloProps: ['Name', 'Nombre', 'Title', 'Título', 'Caso', 'Case'],
@@ -30,71 +39,150 @@ export class JSONGeneratorDailySimple {
 
   constructor() {
     this.fetcher = new NotionFetcher(2);
-    this.ensureDirectories();
+    this.snapshotManager = new SnapshotManager();
+    this.diffEngine = new DiffEngine();
   }
 
-  private ensureDirectories(): void {
-    if (!existsSync(this.reportsDir)) {
-      mkdirSync(this.reportsDir, { recursive: true });
+  /**
+   * Crea la estructura de carpetas: reports/YYYY/MM/DD/
+   * @param fecha - Fecha en formato YYYY-MM-DD
+   * @returns Ruta completa del directorio
+   */
+  private crearEstructuraDirectorios(fecha: string): string {
+    try {
+      const [year, month, day] = fecha.split('-');
+      
+      if (!year || !month || !day) {
+        throw new Error(`Formato de fecha inválido: ${fecha}`);
+      }
+      
+      const rutaCompleta = join(this.baseReportsDir, year, month, day);
+      
+      if (!existsSync(rutaCompleta)) {
+        mkdirSync(rutaCompleta, { recursive: true });
+      }
+      
+      return rutaCompleta;
+    } catch (error) {
+      console.error('Error creando estructura de directorios:', error);
+      throw new Error(`No se pudo crear la estructura de directorios para ${fecha}`);
     }
   }
 
   /**
-   * Genera reporte diario simplificado
-   * V1: Sin comparación, solo muestra estado actual
+   * Genera reporte diario simplificado con comparaciones reales
+   * V3.2: Optimizado con mejor manejo de errores y estructura organizada
    */
   async generarReporteDiario(): Promise<ReporteDiarioSimple> {
-    const fecha = this.getFechaHoy();
-    
-    console.log('>> Generando reporte diario simplificado...');
-    console.log(`   Fecha: ${fecha}`);
+    try {
+      const fechaHora = obtenerFechaHoraActual();
+      
+      console.log('🔄 Generando reporte diario con comparaciones...');
+      console.log(`📅 Fecha/Hora: ${fechaHora.fecha_hora}`);
 
-    // Obtener proyectos activos
-    const proyectos = await this.fetcher.fetchActiveProjects(
-      process.env.NOTION_PROJECTS_DB_ID || ''
-    );
-
-    console.log(`   Proyectos activos: ${proyectos.length}\n`);
-
-    const proyectosReporte: ProyectoDiarioSimple[] = [];
-
-    for (const proyecto of proyectos) {
-      try {
-        console.log(`   Procesando ${proyecto.name}...`);
-        const reporte = await this.procesarProyecto(proyecto);
-        proyectosReporte.push(reporte);
-        
-        const totalItems = reporte.matriz_pruebas.total_actual + reporte.incidencias.total_actual;
-        console.log(`      -> ${totalItems} items encontrados`);
-      } catch (error) {
-        console.error(`      [ERROR] ${proyecto.name}:`, (error as Error).message);
-        // Crear reporte vacío para no romper el JSON
-        proyectosReporte.push(this.crearReporteVacio(proyecto.name));
+      // Validar variable de entorno requerida
+      const projectsDbId = process.env.NOTION_PROJECTS_DB_ID;
+      if (!projectsDbId) {
+        throw new Error('NOTION_PROJECTS_DB_ID no está configurado en las variables de entorno');
       }
+
+      // Cargar snapshot del día hábil anterior
+      const snapshotAnterior = this.snapshotManager.buscarSnapshotDiaHabilAnterior();
+      
+      if (!snapshotAnterior) {
+        console.log('⚠️  Sin snapshot anterior, primer reporte del sistema');
+      } else {
+        console.log(`✓ Snapshot anterior encontrado: ${snapshotAnterior.fecha_hora}`);
+      }
+
+      // Obtener proyectos activos
+      console.log('📡 Consultando proyectos activos desde Notion...');
+      const proyectos = await this.fetcher.fetchActiveProjects(projectsDbId);
+
+      if (proyectos.length === 0) {
+        console.warn('⚠️  No se encontraron proyectos activos');
+      }
+
+      console.log(`✓ Proyectos activos: ${proyectos.length}\n`);
+
+      const proyectosReporte: ProyectoDiarioSimple[] = [];
+      const proyectosSnapshot: ProyectoSnapshot[] = [];
+
+      for (const proyecto of proyectos) {
+        try {
+          console.log(`🔍 Procesando ${proyecto.name}...`);
+          const { reporte, snapshot } = await this.procesarProyecto(
+            proyecto, 
+            snapshotAnterior
+          );
+          proyectosReporte.push(reporte);
+          proyectosSnapshot.push(snapshot);
+          
+          const totalCambios = reporte.matriz_pruebas.cambios.length + reporte.incidencias.cambios.length;
+          console.log(`   ✓ ${totalCambios} cambios detectados`);
+        } catch (error) {
+          const errorMsg = error instanceof Error ? error.message : 'Error desconocido';
+          console.error(`   ❌ [ERROR] ${proyecto.name}: ${errorMsg}`);
+          proyectosReporte.push(this.crearReporteVacio(proyecto.name));
+        }
+      }
+
+      // Guardar snapshot actual para futuras comparaciones
+      const snapshotActual: SnapshotCompleto = {
+        fecha_hora: fechaHora.fecha_hora,
+        zona_horaria: 'America/Asuncion',
+        proyectos: proyectosSnapshot
+      };
+      
+      await this.snapshotManager.guardarSnapshot(snapshotActual);
+      console.log('✓ Snapshot actual guardado para futuras comparaciones');
+
+      const reporte: ReporteDiarioSimple = {
+        fecha_hora: fechaHora.fecha_hora,
+        zona_horaria: 'America/Asuncion',
+        proyectos: proyectosReporte
+      };
+
+      // Crear estructura de directorios por fecha
+      const rutaDirectorio = this.crearEstructuraDirectorios(fechaHora.fecha);
+      
+      // Guardar reporte en carpeta organizada por fecha
+      const nombreArchivo = `reporte-daily-${fechaHora.fecha}.json`;
+      const rutaArchivo = join(rutaDirectorio, nombreArchivo);
+      
+      try {
+        writeFileSync(rutaArchivo, JSON.stringify(reporte, null, 2), 'utf8');
+        console.log(`\n✅ Reporte guardado: ${rutaArchivo}`);
+      } catch (error) {
+        console.error('Error guardando reporte:', error);
+        throw new Error(`No se pudo guardar el reporte en ${rutaArchivo}`);
+      }
+      
+      // Guardar copia latest en el directorio raíz para fácil acceso
+      try {
+        const rutaLatest = join(this.baseReportsDir, 'latest-daily.json');
+        writeFileSync(rutaLatest, JSON.stringify(reporte, null, 2), 'utf8');
+        console.log(`✅ Copia latest: ${rutaLatest}`);
+      } catch (error) {
+        console.warn('⚠️  No se pudo crear copia latest:', error);
+        // No es crítico, continuar
+      }
+      
+      return reporte;
+      
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : 'Error desconocido';
+      console.error('\n❌ Error generando reporte diario:', errorMsg);
+      throw error;
     }
-
-    const reporte: ReporteDiarioSimple = {
-      fecha: fecha,
-      zona_horaria: 'America/Asuncion',
-      proyectos: proyectosReporte
-    };
-
-    // Guardar reporte
-    const nombreArchivo = `reporte-daily-${fecha}.json`;
-    const rutaArchivo = join(this.reportsDir, nombreArchivo);
-    writeFileSync(rutaArchivo, JSON.stringify(reporte, null, 2), 'utf8');
-
-    console.log(`\n   Reporte guardado: ${rutaArchivo}`);
-    
-    // Crear copia latest
-    const rutaLatest = join(this.reportsDir, 'latest-daily.json');
-    writeFileSync(rutaLatest, JSON.stringify(reporte, null, 2), 'utf8');
-    console.log(`   Copia latest: ${rutaLatest}`);
-    
-    return reporte;
   }
 
-  private async procesarProyecto(proyecto: Project): Promise<ProyectoDiarioSimple> {
+  private async procesarProyecto(
+    proyecto: Project,
+    snapshotAnterior: SnapshotCompleto | null
+  ): Promise<{ reporte: ProyectoDiarioSimple; snapshot: ProyectoSnapshot }> {
+    const fechaHora = obtenerFechaHoraActual();
+    
     // Buscar páginas "Documento técnico QA"
     const paginasHijo = await this.fetcher.fetchChildPages(proyecto.id);
     
@@ -125,39 +213,66 @@ export class JSONGeneratorDailySimple {
       }
     }
 
-    // Por ahora, como es V1, no tenemos cambios reales, solo mostramos estado actual
-    // En V2 agregaremos sistema de snapshots para detectar cambios
-    const matrizCambios: ItemCambio[] = matrizItems.map(item => ({
-      id: this.extraerNumeroId(item.titulo),
-      titulo: item.titulo,
-      estado_actual: item.estado,
-      estado_anterior: '' // V1: Sin comparación aún
+    // Crear snapshot actual del proyecto
+    const snapshotActual: ProyectoSnapshot = {
+      nombre_proyecto: proyecto.name,
+      fecha_hora: fechaHora.fecha_hora,
+      matriz_pruebas: matrizItems.map(item => 
+        SnapshotManager.convertirASnapshotItem(item, 'matriz', this.extraerNumeroId.bind(this))
+      ),
+      incidencias: incidenciasItems.map(item => 
+        SnapshotManager.convertirASnapshotItem(item, 'incidencia', this.extraerNumeroId.bind(this))
+      )
+    };
+
+    // Buscar snapshot anterior del proyecto
+    const proyectoAnterior = snapshotAnterior?.proyectos.find(
+      p => p.nombre_proyecto === proyecto.name
+    );
+
+    // Comparar con snapshot anterior
+    const comparacion = this.diffEngine.compararProyecto(snapshotActual, proyectoAnterior || null);
+
+    // Combinar items nuevos + con cambios de estado (solo los que cambiaron)
+    const cambiosMatriz = [
+      ...comparacion.matriz.items_nuevos,
+      ...comparacion.matriz.items_con_cambio_estado
+    ].map(cambio => ({
+      id: cambio.id,
+      titulo: cambio.titulo,
+      estado_actual: cambio.estado_actual,
+      estado_anterior: cambio.estado_anterior
     })).sort((a, b) => this.ordenarPorNumeroId(a.id, b.id));
 
-    const incidenciasCambios: ItemCambio[] = incidenciasItems.map(item => ({
-      id: this.extraerNumeroId(item.titulo),
-      titulo: item.titulo,
-      estado_actual: item.estado,
-      estado_anterior: '' // V1: Sin comparación aún
+    const cambiosIncidencias = [
+      ...comparacion.incidencias.items_nuevos,
+      ...comparacion.incidencias.items_con_cambio_estado
+    ].map(cambio => ({
+      id: cambio.id,
+      titulo: cambio.titulo,
+      estado_actual: cambio.estado_actual,
+      estado_anterior: cambio.estado_anterior
     })).sort((a, b) => this.ordenarPorNumeroId(a.id, b.id));
 
-    // Calcular contadores por estado
+    // Calcular contadores por estado (del estado ACTUAL)
     const matrizPorEstado = this.contarPorEstado(matrizItems);
     const incidenciasPorEstado = this.contarPorEstado(incidenciasItems);
 
-    return {
+    const reporte: ProyectoDiarioSimple = {
       nombre: proyecto.name,
       matriz_pruebas: {
         total_actual: matrizItems.length,
         por_estado: matrizPorEstado,
-        cambios: matrizCambios
+        cambios: cambiosMatriz
       },
       incidencias: {
         total_actual: incidenciasItems.length,
         por_estado: incidenciasPorEstado,
-        cambios: incidenciasCambios
+        cambios: cambiosIncidencias
       }
     };
+
+    return { reporte, snapshot: snapshotActual };
   }
 
   /**
@@ -230,13 +345,5 @@ export class JSONGeneratorDailySimple {
         cambios: []
       }
     };
-  }
-
-  private getFechaHoy(): string {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const day = String(now.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
   }
 }

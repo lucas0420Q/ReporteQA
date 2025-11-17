@@ -91,7 +91,7 @@ class ReportRunner {
       const reporte = await this.dailyGenerator.generarReporteDiario();
       
       console.info('\n>> REPORTE DIARIO COMPLETADO');
-      console.info(`   Fecha: ${reporte.fecha}`);
+      console.info(`   Fecha/Hora: ${reporte.fecha_hora}`);
       console.info(`   Proyectos: ${reporte.proyectos.length}`);
       
       const totalCambios = reporte.proyectos.reduce(

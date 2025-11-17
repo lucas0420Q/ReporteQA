@@ -1,7 +1,7 @@
 {
   "name": "reporte-qa-notion",
-  "version": "3.1.0",
-  "description": "Generador de reportes QA comparativos desde Notion API",
+  "version": "3.2.0",
+  "description": "Generador de reportes QA comparativos desde Notion API - Con comparaciones reales y días hábiles",
   "main": "dist/index.js",
   "type": "module",
   "scripts": {

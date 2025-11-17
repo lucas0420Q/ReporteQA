@@ -1,6 +1,6 @@
 {
-  "semana": "2025-W46",
-  "fecha_generacion": "2025-11-13",
+  "semana": "2025-W47",
+  "fecha_hora": "2025-11-17 13:38:08",
   "zona_horaria": "America/Asuncion",
   "proyectos": [
     {
@@ -30,9 +30,9 @@
     {
       "nombre": "CRM Celexx",
       "casos_agregados_semana": 79,
-      "incidencias_devueltas_semana": 11,
-      "incidencias_resueltas_semana": 82,
-      "casos_prueba_finalizados_semana": 20,
+      "incidencias_devueltas_semana": 12,
+      "incidencias_resueltas_semana": 90,
+      "casos_prueba_finalizados_semana": 21,
       "casos_prueba_pendientes": 31
     },
     {
@@ -53,19 +53,11 @@
     },
     {
       "nombre": "HRM - Talento humano - Fase 2",
-      "casos_agregados_semana": 3,
+      "casos_agregados_semana": 35,
       "incidencias_devueltas_semana": 0,
       "incidencias_resueltas_semana": 0,
-      "casos_prueba_finalizados_semana": 1,
-      "casos_prueba_pendientes": 1
-    },
-    {
-      "nombre": "CRM-Continental-Sostenimiento-Octubre-2025",
-      "casos_agregados_semana": 8,
-      "incidencias_devueltas_semana": 0,
-      "incidencias_resueltas_semana": 1,
-      "casos_prueba_finalizados_semana": 7,
-      "casos_prueba_pendientes": 0
+      "casos_prueba_finalizados_semana": 0,
+      "casos_prueba_pendientes": 35
     }
   ]
 }

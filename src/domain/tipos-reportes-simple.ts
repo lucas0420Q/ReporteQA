@@ -42,7 +42,7 @@ export interface ProyectoDiarioSimple {
  * Reporte diario completo (solo cambios)
  */
 export interface ReporteDiarioSimple {
-  fecha: string;                    // YYYY-MM-DD
+  fecha_hora: string;               // YYYY-MM-DD HH:MM:SS
   zona_horaria: string;
   proyectos: ProyectoDiarioSimple[];
 }
@@ -64,7 +64,7 @@ export interface ProyectoSemanalSimple {
  */
 export interface ReporteSemanalSimple {
   semana: string;                   // Formato "2025-W46"
-  fecha_generacion: string;         // YYYY-MM-DD
+  fecha_hora: string;               // YYYY-MM-DD HH:MM:SS
   zona_horaria: string;
   proyectos: ProyectoSemanalSimple[];
 }
