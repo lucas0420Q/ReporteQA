@@ -14,8 +14,10 @@ Extrae automáticamente datos de **casos de prueba (CP)** e **incidencias (RI)**
 
 - 📊 **2 Tipos de Reportes**: Diario (cambios) + Semanal (métricas)
 - 🔢 **Ordenamiento por ID**: Numérico (CP-7 antes de CP-10)
+- 🏷️ **Clasificación de Cambios**: Detecta items nuevos, modificados y eliminados
 - 📈 **Reporte Semanal**: Solo 4 métricas clave, sin comparaciones
-- 📝 **Reporte Diario**: Estado actual de todos los items ordenados
+- 📝 **Reporte Diario**: Estado actual + comparación con día anterior
+- 📸 **Sistema de Snapshots**: Guarda estado diario para comparaciones precisas
 - 🌎 **Timezone Configurable**: America/Asuncion por defecto
 - 🛡️ **Manejo Robusto**: Continúa aunque falle un proyecto
 - ⚡ **Rate Limiting**: Optimización de llamadas a API
@@ -48,31 +50,48 @@ npm run validate
 
 ### 3️⃣ Uso
 
-**Generar Reporte Diario** (estado actual + cambios ordenados):
+**Generar Reporte Diario** (cambios con clasificación):
 ```powershell
 npm run generate:daily
 ```
-→ Genera `reports/latest-daily.json`
+→ Genera `reports/YYYY/MM/DD/reporte-daily-YYYY-MM-DD.json`
+
+**Ver cambios con colores**:
+```powershell
+.\ver-cambios.ps1
+```
+→ Muestra resumen visual con clasificación: [+] Nuevos, [~] Modificados, [-] Eliminados
 
 **Generar Reporte Semanal** (4 métricas clave):
 ```powershell
 npm run generate:weekly
 ```
-→ Genera `reports/semanales/latest-weekly.json`
+→ Genera `reports/YYYY/MM/DD/semanales/reporte-weekly-YYYY-W##.json`
 
 ## 📊 Estructura de Reportes
 
 ### Reporte Diario
 ```json
 {
-  "fecha": "2025-11-13",
+  "fecha_hora": "2025-11-18 11:15:44",
   "proyectos": [{
-    "nombre": "Proyecto X",
+    "nombre": "CRM Celexx",
     "matriz_pruebas": {
-      "total_actual": 45,
+      "total_actual": 79,
+      "por_estado": {"Finalizado": 40, "En curso": 25, "Pendiente": 14},
       "cambios": [
-        {"id": "01", "titulo": "CP-01 - ...", "estado_actual": "Finalizado"}
+        {
+          "id": "23",
+          "titulo": "CP - 23 - Crear Oportunidad",
+          "estado_actual": "Finalizado",
+          "estado_anterior": "En curso",
+          "tipo_cambio": "modificado"
+        }
       ]
+    },
+    "incidencias": {
+      "total_actual": 124,
+      "cambios": []
     }
   }]
 }
