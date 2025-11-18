@@ -306,6 +306,38 @@ AWS_SECRETS_NAME=notion-qa-secrets
 
 ## 🚨 Solución de Problemas
 
+### 🔧 Error: "cannot open '.git/FETCH_HEAD'"
+
+**Síntoma:** Tu jefe (u otros colaboradores) ven este error al hacer pull y tienen que eliminar y volver a clonar el repositorio.
+
+**Solución Rápida (Recomendada):**
+```powershell
+# Ejecutar script de reparación automática
+.\fix-git.ps1
+```
+
+Este script soluciona el problema en segundos sin necesidad de eliminar nada.
+
+**Solución Manual:**
+```powershell
+# Crear el archivo faltante
+New-Item -Path ".git\FETCH_HEAD" -ItemType File -Force
+
+# Limpiar y reparar
+git gc --prune=now
+git fetch origin
+```
+
+**Prevención:**
+```powershell
+# Configurar hooks automáticos (ejecutar una sola vez)
+.\setup-git.ps1
+```
+
+📖 **Ver guía completa:** [GIT-TROUBLESHOOTING.md](./GIT-TROUBLESHOOTING.md)
+
+---
+
 ### Error: "multiple data sources"
 Si ves este error, significa que una base de datos de Notion usa múltiples fuentes:
 

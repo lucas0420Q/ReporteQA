@@ -1,0 +1,14 @@
+#!/usr/bin/env pwsh
+<#
+.SYNOPSIS
+    Git hook - Pre-pull: Verifica integridad antes de hacer pull
+#>
+
+# Verificar que FETCH_HEAD exista antes de pull
+$fetchHead = ".git\FETCH_HEAD"
+if (-not (Test-Path $fetchHead)) {
+    Write-Host "   [!] Creando FETCH_HEAD faltante..." -ForegroundColor Yellow
+    $null = New-Item -Path $fetchHead -ItemType File -Force
+}
+
+exit 0
