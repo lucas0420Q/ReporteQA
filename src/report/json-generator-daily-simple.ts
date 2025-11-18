@@ -77,8 +77,8 @@ export class JSONGeneratorDailySimple {
     try {
       const fechaHora = obtenerFechaHoraActual();
       
-      console.log('🔄 Generando reporte diario con comparaciones...');
-      console.log(`📅 Fecha/Hora: ${fechaHora.fecha_hora}`);
+      console.log('>> Generando reporte diario con comparaciones...');
+      console.log(`   Fecha/Hora: ${fechaHora.fecha_hora}`);
 
       // Validar variable de entorno requerida
       const projectsDbId = process.env.NOTION_PROJECTS_DB_ID;
@@ -90,27 +90,27 @@ export class JSONGeneratorDailySimple {
       const snapshotAnterior = this.snapshotManager.buscarSnapshotDiaHabilAnterior();
       
       if (!snapshotAnterior) {
-        console.log('⚠️  Sin snapshot anterior, primer reporte del sistema');
+        console.log('   [!] Sin snapshot anterior, primer reporte del sistema');
       } else {
-        console.log(`✓ Snapshot anterior encontrado: ${snapshotAnterior.fecha_hora}`);
+        console.log(`   Snapshot anterior encontrado: ${snapshotAnterior.fecha_hora}`);
       }
 
       // Obtener proyectos activos
-      console.log('📡 Consultando proyectos activos desde Notion...');
+      console.log('   Consultando proyectos activos desde Notion...');
       const proyectos = await this.fetcher.fetchActiveProjects(projectsDbId);
 
       if (proyectos.length === 0) {
-        console.warn('⚠️  No se encontraron proyectos activos');
+        console.warn('   [!] No se encontraron proyectos activos');
       }
 
-      console.log(`✓ Proyectos activos: ${proyectos.length}\n`);
+      console.log(`   Proyectos activos: ${proyectos.length}\n`);
 
       const proyectosReporte: ProyectoDiarioSimple[] = [];
       const proyectosSnapshot: ProyectoSnapshot[] = [];
 
       for (const proyecto of proyectos) {
         try {
-          console.log(`🔍 Procesando ${proyecto.name}...`);
+          console.log(`   Procesando ${proyecto.name}...`);
           const { reporte, snapshot } = await this.procesarProyecto(
             proyecto, 
             snapshotAnterior
@@ -119,10 +119,10 @@ export class JSONGeneratorDailySimple {
           proyectosSnapshot.push(snapshot);
           
           const totalCambios = reporte.matriz_pruebas.cambios.length + reporte.incidencias.cambios.length;
-          console.log(`   ✓ ${totalCambios} cambios detectados`);
+          console.log(`      -> ${totalCambios} cambios detectados`);
         } catch (error) {
           const errorMsg = error instanceof Error ? error.message : 'Error desconocido';
-          console.error(`   ❌ [ERROR] ${proyecto.name}: ${errorMsg}`);
+          console.error(`      [ERROR] ${proyecto.name}: ${errorMsg}`);
           proyectosReporte.push(this.crearReporteVacio(proyecto.name));
         }
       }
@@ -135,7 +135,7 @@ export class JSONGeneratorDailySimple {
       };
       
       await this.snapshotManager.guardarSnapshot(snapshotActual);
-      console.log('✓ Snapshot actual guardado para futuras comparaciones');
+      console.log('   Snapshot actual guardado para futuras comparaciones');
 
       const reporte: ReporteDiarioSimple = {
         fecha_hora: fechaHora.fecha_hora,
@@ -152,7 +152,7 @@ export class JSONGeneratorDailySimple {
       
       try {
         writeFileSync(rutaArchivo, JSON.stringify(reporte, null, 2), 'utf8');
-        console.log(`\n✅ Reporte guardado: ${rutaArchivo}`);
+        console.log(`\n   Reporte guardado: ${rutaArchivo}`);
       } catch (error) {
         console.error('Error guardando reporte:', error);
         throw new Error(`No se pudo guardar el reporte en ${rutaArchivo}`);
@@ -162,9 +162,9 @@ export class JSONGeneratorDailySimple {
       try {
         const rutaLatest = join(this.baseReportsDir, 'latest-daily.json');
         writeFileSync(rutaLatest, JSON.stringify(reporte, null, 2), 'utf8');
-        console.log(`✅ Copia latest: ${rutaLatest}`);
+        console.log(`   Copia latest: ${rutaLatest}`);
       } catch (error) {
-        console.warn('⚠️  No se pudo crear copia latest:', error);
+        console.warn('   [!] No se pudo crear copia latest:', error);
         // No es crítico, continuar
       }
       
@@ -172,7 +172,7 @@ export class JSONGeneratorDailySimple {
       
     } catch (error) {
       const errorMsg = error instanceof Error ? error.message : 'Error desconocido';
-      console.error('\n❌ Error generando reporte diario:', errorMsg);
+      console.error('\n   [ERROR] Error generando reporte diario:', errorMsg);
       throw error;
     }
   }
@@ -326,7 +326,7 @@ export class JSONGeneratorDailySimple {
 
       return items;
     } catch (error) {
-      console.error(`   ⚠️  Error obteniendo ${tipo}:`, (error as Error).message);
+      console.error(`   [!] Error obteniendo ${tipo}:`, (error as Error).message);
       return [];
     }
   }

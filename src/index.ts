@@ -31,7 +31,7 @@ class ReportRunner {
   public async generateJSONReport(options: {
     skipValidation?: boolean;
   } = {}): Promise<void> {
-    console.info('🚀 Iniciando generación de reportes QA JSON...');
+    console.info('>> Iniciando generación de reportes QA JSON...');
 
     try {
       // Validar token de Notion
@@ -40,31 +40,31 @@ class ReportRunner {
         if (!isValid) {
           throw new ConfigurationError('Token de Notion inválido');
         }
-        console.info('✅ Token de Notion validado');
+        console.info('   Token de Notion validado');
       }
 
       // Generar reporte JSON
       const reporte = await this.jsonGenerator.generarReporteReal();
       
-      console.info('🎯 REPORTE GENERADO EXITOSAMENTE');
-      console.info('═'.repeat(40));
-      console.info(`📅 Fecha: ${reporte.fecha}`);
-      console.info(`📊 Proyectos: ${reporte.proyectos.length}`);
+      console.info('>> REPORTE GENERADO EXITOSAMENTE');
+      console.info('='.repeat(40));
+      console.info(`   Fecha: ${reporte.fecha}`);
+      console.info(`   Proyectos: ${reporte.proyectos.length}`);
       
       const totalCasos = reporte.proyectos.reduce((sum, p) => sum + p.matriz_pruebas.nuevos, 0);
       const totalIncidencias = reporte.proyectos.reduce((sum, p) => sum + p.incidencias.nuevos, 0);
       
-      console.info(`🧪 Casos de Prueba: ${totalCasos}`);
-      console.info(`🐛 Incidencias: ${totalIncidencias}`);
-      console.info(`📄 Archivo JSON: reportes/reporte-real-${reporte.fecha}.json`);
+      console.info(`   Casos de Prueba: ${totalCasos}`);
+      console.info(`   Incidencias: ${totalIncidencias}`);
+      console.info(`   Archivo JSON: reportes/reporte-real-${reporte.fecha}.json`);
 
     } catch (error) {
       if (error instanceof ConfigurationError) {
-        console.error('❌ Error de configuración:', error.message);
+        console.error('   [ERROR] Error de configuración:', error.message);
         process.exit(1);
       }
       
-      console.error('❌ Error inesperado:', error);
+      console.error('   [ERROR] Error inesperado:', error);
       process.exit(1);
     }
   }
@@ -102,11 +102,11 @@ class ReportRunner {
 
     } catch (error) {
       if (error instanceof ConfigurationError) {
-        console.error('❌ Error de configuracion:', error.message);
+        console.error('   [ERROR] Error de configuracion:', error.message);
         process.exit(1);
       }
       
-      console.error('❌ Error inesperado:', error);
+      console.error('   [ERROR] Error inesperado:', error);
       process.exit(1);
     }
   }
@@ -138,11 +138,11 @@ class ReportRunner {
 
     } catch (error) {
       if (error instanceof ConfigurationError) {
-        console.error('❌ Error de configuracion:', error.message);
+        console.error('   [ERROR] Error de configuracion:', error.message);
         process.exit(1);
       }
       
-      console.error('❌ Error inesperado:', error);
+      console.error('   [ERROR] Error inesperado:', error);
       process.exit(1);
     }
   }
@@ -197,22 +197,22 @@ async function main(): Promise<void> {
     .description('Valida la configuración y conexión a Notion')
     .action(async () => {
       try {
-        console.info('🔍 Validando configuración...');
+        console.info('>> Validando configuración...');
         
         const isValid = await NotionSecureClient.validateToken();
         
         if (isValid) {
           const workspaceInfo = await NotionSecureClient.getWorkspaceInfo();
-          console.info('✅ Configuración válida');
-          console.info(`📝 Workspace: ${workspaceInfo.workspaceId}`);
-          console.info(`🤖 Bot ID: ${workspaceInfo.botId}`);
+          console.info('   Configuración válida');
+          console.info(`   Workspace: ${workspaceInfo.workspaceId}`);
+          console.info(`   Bot ID: ${workspaceInfo.botId}`);
         } else {
-          console.error('❌ Token de Notion inválido');
+          console.error('   [ERROR] Token de Notion inválido');
           process.exit(1);
         }
       } catch (error) {
         console.error(
-          '💥 Error en validación:',
+          '   [ERROR] Error en validación:',
           error instanceof Error ? error.message : 'Error desconocido'
         );
         process.exit(1);
@@ -225,7 +225,7 @@ async function main(): Promise<void> {
 // Ejecutar si es el módulo principal
 main().catch(error => {
   console.error(
-    '💥 Error fatal:',
+    '   [ERROR] Error fatal:',
     error instanceof Error ? error.message : 'Error desconocido'
   );
   process.exit(1);

@@ -75,9 +75,9 @@ export class JSONGeneratorWeeklySimple {
       const { semana, fecha } = this.getInfoSemana();
       const fechaHora = obtenerFechaHoraActual();
       
-      console.log('🔄 Generando reporte semanal con comparaciones...');
-      console.log(`📊 Semana: ${semana}`);
-      console.log(`📅 Fecha/Hora: ${fechaHora.fecha_hora}`);
+      console.log('>> Generando reporte semanal con comparaciones...');
+      console.log(`   Semana: ${semana}`);
+      console.log(`   Fecha/Hora: ${fechaHora.fecha_hora}`);
 
       // Validar variable de entorno requerida
       const projectsDbId = process.env.NOTION_PROJECTS_DB_ID;
@@ -89,35 +89,35 @@ export class JSONGeneratorWeeklySimple {
       const snapshotSemanaAnterior = this.snapshotManager.buscarSnapshotDiasHabilesAtras(5);
       
       if (!snapshotSemanaAnterior) {
-        console.log('⚠️  Sin snapshot de semana anterior, métricas basadas en estado actual');
+        console.log('   [!] Sin snapshot de semana anterior, métricas basadas en estado actual');
       } else {
-        console.log(`✓ Comparando con snapshot de hace 5 días hábiles (${snapshotSemanaAnterior.fecha_hora})`);
+        console.log(`   Comparando con snapshot de hace 5 días hábiles (${snapshotSemanaAnterior.fecha_hora})`);
       }
 
       // Obtener proyectos activos
-      console.log('📡 Consultando proyectos activos desde Notion...');
+      console.log('   Consultando proyectos activos desde Notion...');
       const proyectos = await this.fetcher.fetchActiveProjects(projectsDbId);
 
       if (proyectos.length === 0) {
-        console.warn('⚠️  No se encontraron proyectos activos');
+        console.warn('   [!] No se encontraron proyectos activos');
       }
 
-      console.log(`✓ Proyectos activos: ${proyectos.length}\n`);
+      console.log(`   Proyectos activos: ${proyectos.length}\n`);
 
       const proyectosReporte: ProyectoSemanalSimple[] = [];
 
       for (const proyecto of proyectos) {
         try {
-          console.log(`🔍 Procesando ${proyecto.name}...`);
+          console.log(`   Procesando ${proyecto.name}...`);
           const metricas = await this.calcularMetricasProyecto(
             proyecto, 
             snapshotSemanaAnterior
           );
           proyectosReporte.push(metricas);
-          console.log(`   ✓ Métricas calculadas`);
+          console.log(`      -> Métricas calculadas`);
         } catch (error) {
           const errorMsg = error instanceof Error ? error.message : 'Error desconocido';
-          console.error(`   ❌ [ERROR] ${proyecto.name}: ${errorMsg}`);
+          console.error(`      [ERROR] ${proyecto.name}: ${errorMsg}`);
           proyectosReporte.push(this.crearMetricasVacias(proyecto.name));
         }
       }
@@ -138,7 +138,7 @@ export class JSONGeneratorWeeklySimple {
       
       try {
         writeFileSync(rutaArchivo, JSON.stringify(reporte, null, 2), 'utf8');
-        console.log(`\n✅ Reporte semanal guardado: ${rutaArchivo}`);
+        console.log(`\n   Reporte semanal guardado: ${rutaArchivo}`);
       } catch (error) {
         console.error('Error guardando reporte semanal:', error);
         throw new Error(`No se pudo guardar el reporte semanal en ${rutaArchivo}`);
@@ -148,16 +148,16 @@ export class JSONGeneratorWeeklySimple {
       try {
         const rutaLatest = join(this.baseReportsDir, 'latest-weekly.json');
         writeFileSync(rutaLatest, JSON.stringify(reporte, null, 2), 'utf8');
-        console.log(`✅ Copia latest: ${rutaLatest}`);
+        console.log(`   Copia latest: ${rutaLatest}`);
       } catch (error) {
-        console.warn('⚠️  No se pudo crear copia latest:', error);
+        console.warn('   [!] No se pudo crear copia latest:', error);
       }
       
       return reporte;
       
     } catch (error) {
       const errorMsg = error instanceof Error ? error.message : 'Error desconocido';
-      console.error('\n❌ Error generando reporte semanal:', errorMsg);
+      console.error('\n   [ERROR] Error generando reporte semanal:', errorMsg);
       throw error;
     }
   }
@@ -336,7 +336,7 @@ export class JSONGeneratorWeeklySimple {
 
       return items;
     } catch (error) {
-      console.error(`   ⚠️  Error obteniendo ${tipo}:`, (error as Error).message);
+      console.error(`   [!] Error obteniendo ${tipo}:`, (error as Error).message);
       return [];
     }
   }

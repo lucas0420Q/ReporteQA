@@ -69,7 +69,7 @@ export class SnapshotManager {
       const contenido = readFileSync(rutaArchivo, 'utf8');
       return JSON.parse(contenido) as SnapshotCompleto;
     } catch (error) {
-      console.error(`   ⚠️  Error cargando snapshot ${fecha}:`, (error as Error).message);
+      console.error(`   [!] Error cargando snapshot ${fecha}:`, (error as Error).message);
       return null;
     }
   }
@@ -87,14 +87,14 @@ export class SnapshotManager {
       const snapshot = this.cargarSnapshot(fechaStr);
       
       if (snapshot) {
-        console.log(`   📂 Snapshot encontrado: ${fechaStr}`);
+        console.log(`   Snapshot encontrado: ${fechaStr}`);
         return snapshot;
       }
       
       fechaBusqueda = obtenerDiaHabilAnterior(fechaBusqueda);
     }
     
-    console.log(`   ⚠️  No se encontró snapshot del día hábil anterior`);
+    console.log(`   [!] No se encontró snapshot del día hábil anterior`);
     return null;
   }
 
@@ -112,7 +112,7 @@ export class SnapshotManager {
         const fechaStr = formatearFecha(fechaBusqueda);
         const snapshot = this.cargarSnapshot(fechaStr);
         if (snapshot) {
-          console.log(`   📂 Snapshot encontrado (${diasHabiles} días hábiles atrás): ${fechaStr}`);
+          console.log(`   Snapshot encontrado (${diasHabiles} días hábiles atrás): ${fechaStr}`);
           return snapshot;
         }
       } else {
@@ -122,7 +122,7 @@ export class SnapshotManager {
         const fechaAntesStr = formatearFecha(fechaAntes);
         const snapshotAntes = this.cargarSnapshot(fechaAntesStr);
         if (snapshotAntes) {
-          console.log(`   📂 Snapshot encontrado (aprox ${diasHabiles} días hábiles): ${fechaAntesStr}`);
+          console.log(`   Snapshot encontrado (aprox ${diasHabiles} días hábiles): ${fechaAntesStr}`);
           return snapshotAntes;
         }
         
@@ -132,13 +132,13 @@ export class SnapshotManager {
         const fechaDespuesStr = formatearFecha(fechaDespues);
         const snapshotDespues = this.cargarSnapshot(fechaDespuesStr);
         if (snapshotDespues) {
-          console.log(`   📂 Snapshot encontrado (aprox ${diasHabiles} días hábiles): ${fechaDespuesStr}`);
+          console.log(`   Snapshot encontrado (aprox ${diasHabiles} días hábiles): ${fechaDespuesStr}`);
           return snapshotDespues;
         }
       }
     }
     
-    console.log(`   ⚠️  No se encontró snapshot de hace ${diasHabiles} días hábiles`);
+    console.log(`   [!] No se encontró snapshot de hace ${diasHabiles} días hábiles`);
     return null;
   }
 

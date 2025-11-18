@@ -694,11 +694,11 @@ export class NotionFetcher {
           continue;
         }
 
-        // 🔄 Errores temporales - reintentar con backoff
+        // Errores temporales - reintentar con backoff
         if (attempt < this.maxRetries) {
           const delay = this.calculateBackoffDelay(attempt, false);
           console.log(
-            `   🔄 Reintento ${attempt}/${this.maxRetries} en ${Math.round(delay/1000)}s - ${this.getErrorSummary(lastError)}`
+            `   -> Reintento ${attempt}/${this.maxRetries} en ${Math.round(delay/1000)}s - ${this.getErrorSummary(lastError)}`
           );
           await this.sleep(delay);
           continue;
