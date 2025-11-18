@@ -235,24 +235,52 @@ export class JSONGeneratorDailySimple {
 
     // Combinar items nuevos + con cambios de estado (solo los que cambiaron)
     const cambiosMatriz = [
-      ...comparacion.matriz.items_nuevos,
-      ...comparacion.matriz.items_con_cambio_estado
-    ].map(cambio => ({
-      id: cambio.id,
-      titulo: cambio.titulo,
-      estado_actual: cambio.estado_actual,
-      estado_anterior: cambio.estado_anterior
-    })).sort((a, b) => this.ordenarPorNumeroId(a.id, b.id));
+      ...comparacion.matriz.items_nuevos.map(cambio => ({
+        id: cambio.id,
+        titulo: cambio.titulo,
+        estado_actual: cambio.estado_actual,
+        estado_anterior: cambio.estado_anterior,
+        tipo_cambio: 'nuevo' as const
+      })),
+      ...comparacion.matriz.items_con_cambio_estado.map(cambio => ({
+        id: cambio.id,
+        titulo: cambio.titulo,
+        estado_actual: cambio.estado_actual,
+        estado_anterior: cambio.estado_anterior,
+        tipo_cambio: 'modificado' as const
+      })),
+      ...comparacion.matriz.items_eliminados.map(cambio => ({
+        id: cambio.id,
+        titulo: cambio.titulo,
+        estado_actual: 'Eliminado',
+        estado_anterior: cambio.estado_anterior,
+        tipo_cambio: 'eliminado' as const
+      }))
+    ].sort((a, b) => this.ordenarPorNumeroId(a.id, b.id));
 
     const cambiosIncidencias = [
-      ...comparacion.incidencias.items_nuevos,
-      ...comparacion.incidencias.items_con_cambio_estado
-    ].map(cambio => ({
-      id: cambio.id,
-      titulo: cambio.titulo,
-      estado_actual: cambio.estado_actual,
-      estado_anterior: cambio.estado_anterior
-    })).sort((a, b) => this.ordenarPorNumeroId(a.id, b.id));
+      ...comparacion.incidencias.items_nuevos.map(cambio => ({
+        id: cambio.id,
+        titulo: cambio.titulo,
+        estado_actual: cambio.estado_actual,
+        estado_anterior: cambio.estado_anterior,
+        tipo_cambio: 'nuevo' as const
+      })),
+      ...comparacion.incidencias.items_con_cambio_estado.map(cambio => ({
+        id: cambio.id,
+        titulo: cambio.titulo,
+        estado_actual: cambio.estado_actual,
+        estado_anterior: cambio.estado_anterior,
+        tipo_cambio: 'modificado' as const
+      })),
+      ...comparacion.incidencias.items_eliminados.map(cambio => ({
+        id: cambio.id,
+        titulo: cambio.titulo,
+        estado_actual: 'Eliminado',
+        estado_anterior: cambio.estado_anterior,
+        tipo_cambio: 'eliminado' as const
+      }))
+    ].sort((a, b) => this.ordenarPorNumeroId(a.id, b.id));
 
     // Calcular contadores por estado (del estado ACTUAL)
     const matrizPorEstado = this.contarPorEstado(matrizItems);

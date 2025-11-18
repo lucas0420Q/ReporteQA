@@ -12,6 +12,7 @@ export interface ItemCambio {
   titulo: string;       // Título completo
   estado_actual: string;
   estado_anterior: string;
+  tipo_cambio: 'nuevo' | 'modificado' | 'eliminado';  // Tipo de cambio detectado
 }
 
 /**
