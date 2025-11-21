@@ -1,0 +1,25 @@
+﻿Reporte Semanal de QA - Semana 2025-W47
+Generado: 2025-11-21 16:43:16
+
+=== CASOS DE PRUEBA (CP) ===
+
+Proyecto;CP_nuevos;CP_con_cambios;CP_pendientes;CP_en_curso;CP_finalizados
+Crux - Versión 2.0;0;0;0;0;45
+Lila - Automotor;0;0;0;0;0
+CRM Celexx;0;0;29;23;27
+Pagaré V3;0;0;0;0;15
+Flujos JBPM;0;2;1;1;1
+HRM - Talento humano - Fase 2;0;0;25;10;0
+CRM-Continental-Sostenimiento-Octubre-2025;0;0;3;2;3
+
+
+=== REPORTES DE INCIDENCIAS (RI) ===
+
+Proyecto;RI_nuevas;RI_con_cambios;RI_pendientes;RI_en_curso;RI_devuelto;RI_finalizado;RI_resuelto
+Crux - Versión 2.0;0;0;1;0;0;0;14
+Lila - Automotor;0;0;0;0;0;0;0
+CRM Celexx;0;0;18;6;9;1;90
+Pagaré V3;0;0;0;0;0;0;2
+Flujos JBPM;0;0;0;5;0;0;0
+HRM - Talento humano - Fase 2;0;0;16;3;0;9;0
+CRM-Continental-Sostenimiento-Octubre-2025;0;0;1;0;0;0;1
