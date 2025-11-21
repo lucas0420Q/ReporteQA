@@ -20,8 +20,13 @@ import {
   ProyectoSnapshot 
 } from '../domain/snapshot-manager.js';
 import { DiffEngine } from '../domain/diff-engine-v2.js';
-import { writeFileSync, existsSync, mkdirSync } from 'fs';
 import { join } from 'path';
+import { 
+  buildWeeklyReportPath, 
+  writeJsonReportAtomic,
+  getPreviousWeeklyReport,
+  readJsonReport
+} from '../utils/fs-reports.js';
 
 export class JSONGeneratorWeeklySimple {
   private readonly fetcher: NotionFetcher;
@@ -41,34 +46,8 @@ export class JSONGeneratorWeeklySimple {
   }
 
   /**
-   * Crea la estructura de carpetas: reports/YYYY/MM/DD/semanales/
-   * @param fecha - Fecha en formato YYYY-MM-DD
-   * @returns Ruta completa del directorio
-   */
-  private crearEstructuraDirectorios(fecha: string): string {
-    try {
-      const [year, month, day] = fecha.split('-');
-      
-      if (!year || !month || !day) {
-        throw new Error(`Formato de fecha inválido: ${fecha}`);
-      }
-      
-      const rutaCompleta = join(this.baseReportsDir, year, month, day, 'semanales');
-      
-      if (!existsSync(rutaCompleta)) {
-        mkdirSync(rutaCompleta, { recursive: true });
-      }
-      
-      return rutaCompleta;
-    } catch (error) {
-      console.error('Error creando estructura de directorios:', error);
-      throw new Error(`No se pudo crear la estructura de directorios para ${fecha}`);
-    }
-  }
-
-  /**
    * Genera reporte semanal simplificado con métricas reales
-   * V3.2: Optimizado con mejor manejo de errores y estructura organizada
+   * V3.3: Usa snapshot guardado junto con cada reporte para comparaciones
    */
   async generarReporteSemanal(): Promise<ReporteSemanalSimple> {
     try {
@@ -85,13 +64,14 @@ export class JSONGeneratorWeeklySimple {
         throw new Error('NOTION_PROJECTS_DB_ID no está configurado en las variables de entorno');
       }
 
-      // Cargar snapshot de hace 5 días hábiles (1 semana laboral: Lunes-Viernes)
-      const snapshotSemanaAnterior = this.snapshotManager.buscarSnapshotDiasHabilesAtras(5);
+      // Buscar el snapshot semanal anterior más reciente
+      console.log('   Buscando snapshot de reporte semanal anterior...');
+      const snapshotAnterior = await this.buscarSnapshotSemanalAnterior();
       
-      if (!snapshotSemanaAnterior) {
-        console.log('   [!] Sin snapshot de semana anterior, métricas basadas en estado actual');
+      if (!snapshotAnterior) {
+        console.log(`   [!] No hay snapshot semanal anterior disponible`);
       } else {
-        console.log(`   Comparando con snapshot de hace 5 días hábiles (${snapshotSemanaAnterior.fecha_hora})`);
+        console.log(`   ✓ Snapshot anterior encontrado: ${snapshotAnterior.fecha_hora}`);
       }
 
       // Obtener proyectos activos
@@ -105,15 +85,17 @@ export class JSONGeneratorWeeklySimple {
       console.log(`   Proyectos activos: ${proyectos.length}\n`);
 
       const proyectosReporte: ProyectoSemanalSimple[] = [];
+      const proyectosSnapshot: ProyectoSnapshot[] = [];
 
       for (const proyecto of proyectos) {
         try {
           console.log(`   Procesando ${proyecto.name}...`);
-          const metricas = await this.calcularMetricasProyecto(
+          const { metricas, snapshot } = await this.calcularMetricasProyecto(
             proyecto, 
-            snapshotSemanaAnterior
+            snapshotAnterior
           );
           proyectosReporte.push(metricas);
+          proyectosSnapshot.push(snapshot);
           console.log(`      -> Métricas calculadas`);
         } catch (error) {
           const errorMsg = error instanceof Error ? error.message : 'Error desconocido';
@@ -129,28 +111,31 @@ export class JSONGeneratorWeeklySimple {
         proyectos: proyectosReporte
       };
 
-      // Crear estructura de directorios por fecha
-      const rutaDirectorio = this.crearEstructuraDirectorios(fechaHora.fecha);
-      
-      // Guardar reporte en carpeta organizada
-      const nombreArchivo = `reporte-weekly-${semana}.json`;
-      const rutaArchivo = join(rutaDirectorio, nombreArchivo);
+      // Guardar snapshot actual para futuras comparaciones
+      const snapshotActual = {
+        fecha_hora: fechaHora.fecha_hora,
+        zona_horaria: 'America/Asuncion',
+        proyectos: proyectosSnapshot
+      };
+      await this.guardarSnapshotSemanal(snapshotActual, fechaHora.fecha_hora);
+
+      // Guardar reporte con timestamp único (fecha + hora)
+      const fechaReporte = new Date(fechaHora.fecha_hora);
+      const rutaArchivo = buildWeeklyReportPath(fechaReporte);
       
       try {
-        writeFileSync(rutaArchivo, JSON.stringify(reporte, null, 2), 'utf8');
-        console.log(`\n   Reporte semanal guardado: ${rutaArchivo}`);
+        const metadata = await writeJsonReportAtomic(rutaArchivo, reporte, {
+          createLatestAlias: true,
+          overwrite: true // Permitir sobreescritura ya que el nombre incluye timestamp
+        });
+        
+        console.log(`\n   Reporte semanal guardado: ${metadata.mainPath}`);
+        if (metadata.aliasPath) {
+          console.log(`   Alias latest actualizado: ${metadata.aliasPath}`);
+        }
+        console.log(`   Tamaño: ${(metadata.size / 1024).toFixed(2)} KB`);
       } catch (error) {
-        console.error('Error guardando reporte semanal:', error);
-        throw new Error(`No se pudo guardar el reporte semanal en ${rutaArchivo}`);
-      }
-      
-      // Guardar copia latest
-      try {
-        const rutaLatest = join(this.baseReportsDir, 'latest-weekly.json');
-        writeFileSync(rutaLatest, JSON.stringify(reporte, null, 2), 'utf8');
-        console.log(`   Copia latest: ${rutaLatest}`);
-      } catch (error) {
-        console.warn('   [!] No se pudo crear copia latest:', error);
+        throw new Error(`No se pudo guardar el reporte semanal: ${(error as Error).message}`);
       }
       
       return reporte;
@@ -164,8 +149,8 @@ export class JSONGeneratorWeeklySimple {
 
   private async calcularMetricasProyecto(
     proyecto: Project,
-    snapshotSemanaAnterior: any | null
-  ): Promise<ProyectoSemanalSimple> {
+    snapshotAnterior: any | null
+  ): Promise<{ metricas: ProyectoSemanalSimple; snapshot: ProyectoSnapshot }> {
     const fechaHora = obtenerFechaHoraActual();
     
     // Buscar páginas "Documento técnico QA"
@@ -210,25 +195,106 @@ export class JSONGeneratorWeeklySimple {
       )
     };
 
-    // Buscar snapshot de hace 1 semana del proyecto
-    const proyectoSemanaAnterior = snapshotSemanaAnterior?.proyectos.find(
+    // Buscar proyecto en el snapshot/reporte anterior
+    const proyectoAnterior = snapshotAnterior?.proyectos.find(
       (p: any) => p.nombre_proyecto === proyecto.name
     );
 
-    // Si hay snapshot de semana anterior, calcular métricas con comparación real
-    if (proyectoSemanaAnterior) {
+    // Si existe reporte anterior del proyecto, calcular métricas con comparación real
+    if (proyectoAnterior) {
+      console.log(`      [✓] Comparando con snapshot anterior`);
       const metricas = this.diffEngine.calcularMetricasSemanales(
         snapshotActual,
-        proyectoSemanaAnterior
+        proyectoAnterior
       );
       return {
-        nombre: proyecto.name,
-        ...metricas
+        metricas: {
+          nombre: proyecto.name,
+          ...metricas
+        },
+        snapshot: snapshotActual
       };
     }
 
-    // Si no hay snapshot anterior, usar aproximaciones basadas en estado actual
-    return this.calcularMetricasAproximadas(proyecto.name, matrizItems, incidenciasItems);
+    // Si no hay reporte anterior del proyecto específico (proyecto nuevo)
+    if (snapshotAnterior) {
+      console.log(`      [!] Proyecto "${proyecto.name}" es nuevo (no existía en snapshot anterior)`);
+    }
+    
+    const metricasAproximadas = this.calcularMetricasAproximadas(proyecto.name, matrizItems, incidenciasItems);
+    return {
+      metricas: metricasAproximadas,
+      snapshot: snapshotActual
+    };
+  }
+
+  /**
+   * Busca el snapshot del reporte semanal anterior más reciente
+   */
+  private async buscarSnapshotSemanalAnterior(): Promise<any | null> {
+    const reportes = await this.listarSnapshotsSemanales();
+    if (reportes.length === 0) {
+      return null;
+    }
+    
+    // Tomar el más reciente (ya están ordenados)
+    const snapshotPath = reportes[0];
+    
+    try {
+      const contenido = await readJsonReport(snapshotPath);
+      return contenido;
+    } catch (error) {
+      console.error(`   [!] Error leyendo snapshot: ${(error as Error).message}`);
+      return null;
+    }
+  }
+
+  /**
+   * Lista todos los snapshots semanales disponibles
+   */
+  private async listarSnapshotsSemanales(): Promise<string[]> {
+    const snapshotsDir = './snapshots/semanales';
+    
+    try {
+      const { ensureDirectoryExists } = await import('../utils/fs-reports.js');
+      await ensureDirectoryExists(snapshotsDir);
+      
+      const fs = await import('fs/promises');
+      const files = await fs.readdir(snapshotsDir);
+      
+      return files
+        .filter(f => f.startsWith('snapshot-semanal-') && f.endsWith('.json'))
+        .map(f => `${snapshotsDir}/${f}`)
+        .sort()
+        .reverse(); // Más recientes primero
+    } catch {
+      return [];
+    }
+  }
+
+  /**
+   * Guarda el snapshot del reporte semanal actual
+   */
+  private async guardarSnapshotSemanal(snapshot: any, fechaHora: string): Promise<void> {
+    const snapshotsDir = './snapshots/semanales';
+    
+    try {
+      const { ensureDirectoryExists } = await import('../utils/fs-reports.js');
+      await ensureDirectoryExists(snapshotsDir);
+      
+      // Extraer fecha y hora del timestamp
+      const [fecha, hora] = fechaHora.split(' ');
+      const horaFormateada = hora.replace(/:/g, '');
+      const nombreArchivo = `snapshot-semanal-${fecha}-${horaFormateada}.json`;
+      const rutaArchivo = `${snapshotsDir}/${nombreArchivo}`;
+      
+      const fs = await import('fs/promises');
+      await fs.writeFile(rutaArchivo, JSON.stringify(snapshot, null, 2), 'utf8');
+      
+      console.log(`   📸 Snapshot semanal guardado: ${rutaArchivo}`);
+    } catch (error) {
+      console.error(`   [!] Error guardando snapshot semanal: ${(error as Error).message}`);
+    }
   }
 
   /**
@@ -239,6 +305,7 @@ export class JSONGeneratorWeeklySimple {
     matrizItems: ItemMin[],
     incidenciasItems: ItemMin[]
   ): ProyectoSemanalSimple {
+    // Estados actuales de casos de prueba
     const casosFinalizados = matrizItems.filter(item => 
       this.esEstadoFinalizado(item.estado)
     ).length;
@@ -246,7 +313,12 @@ export class JSONGeneratorWeeklySimple {
     const casosPendientes = matrizItems.filter(item => 
       this.esEstadoPendiente(item.estado)
     ).length;
+
+    const casosEnCurso = matrizItems.filter(item => 
+      this.esEstadoEnCurso(item.estado)
+    ).length;
     
+    // Estados actuales de incidencias
     const incidenciasDevueltas = incidenciasItems.filter(item => 
       this.esEstadoDevuelto(item.estado)
     ).length;
@@ -255,16 +327,38 @@ export class JSONGeneratorWeeklySimple {
       this.esEstadoResuelto(item.estado)
     ).length;
 
+    const incidenciasPendientes = incidenciasItems.filter(item => 
+      this.esEstadoPendiente(item.estado)
+    ).length;
+
+    const incidenciasEnCurso = incidenciasItems.filter(item => 
+      this.esEstadoEnCurso(item.estado)
+    ).length;
+
+    const incidenciasFinalizadas = incidenciasItems.filter(item => 
+      this.esEstadoFinalizado(item.estado)
+    ).length;
+
     // Aproximación para V1: total actual como casos agregados
     const casosAgregadosSemana = matrizItems.length;
+    const incidenciasNuevasSemana = incidenciasItems.length;
+
+    console.log(`   [!] Sin snapshot anterior - usando aproximaciones basadas en estado actual`);
 
     return {
       nombre: nombreProyecto,
       casos_agregados_semana: casosAgregadosSemana,
-      incidencias_devueltas_semana: incidenciasDevueltas,
-      incidencias_resueltas_semana: incidenciasResueltas,
-      casos_prueba_finalizados_semana: casosFinalizados,
-      casos_prueba_pendientes: casosPendientes
+      casos_con_cambios_semana: 0, // No podemos calcular sin snapshot anterior
+      casos_prueba_pendientes: casosPendientes,
+      casos_prueba_en_curso: casosEnCurso,
+      casos_prueba_finalizados: casosFinalizados, // Total actual, no solo de la semana
+      incidencias_nuevas_semana: incidenciasNuevasSemana,
+      incidencias_con_cambios_semana: 0, // No podemos calcular sin snapshot anterior
+      incidencias_pendientes: incidenciasPendientes,
+      incidencias_en_curso: incidenciasEnCurso,
+      incidencias_devueltas: incidenciasDevueltas, // Total actual
+      incidencias_finalizadas: incidenciasFinalizadas, // Total actual
+      incidencias_resueltas: incidenciasResueltas // Total actual
     };
   }
 
@@ -274,6 +368,17 @@ export class JSONGeneratorWeeklySimple {
   private extraerNumeroId(titulo: string): string {
     const match = titulo.match(/(?:CP|RI)\s*-?\s*(\d+)/i);
     return match ? match[1] : "0";
+  }
+
+  /**
+   * Determina si un estado es "en curso"
+   */
+  private esEstadoEnCurso(estado: string): boolean {
+    const estadoLower = estado.toLowerCase();
+    return estadoLower.includes('en curso') || 
+           estadoLower.includes('en progreso') ||
+           estadoLower.includes('in progress') ||
+           estadoLower.includes('doing');
   }
 
   /**
@@ -345,10 +450,17 @@ export class JSONGeneratorWeeklySimple {
     return {
       nombre: nombreProyecto,
       casos_agregados_semana: 0,
-      incidencias_devueltas_semana: 0,
-      incidencias_resueltas_semana: 0,
-      casos_prueba_finalizados_semana: 0,
-      casos_prueba_pendientes: 0
+      casos_con_cambios_semana: 0,
+      casos_prueba_pendientes: 0,
+      casos_prueba_en_curso: 0,
+      casos_prueba_finalizados: 0,
+      incidencias_nuevas_semana: 0,
+      incidencias_con_cambios_semana: 0,
+      incidencias_pendientes: 0,
+      incidencias_en_curso: 0,
+      incidencias_devueltas: 0,
+      incidencias_finalizadas: 0,
+      incidencias_resueltas: 0
     };
   }
 

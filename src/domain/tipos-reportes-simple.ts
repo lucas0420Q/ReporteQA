@@ -50,14 +50,30 @@ export interface ReporteDiarioSimple {
 
 /**
  * Métricas de un proyecto para reporte semanal
+ * V3.4: Incluye totales actuales además de cambios de la semana
  */
 export interface ProyectoSemanalSimple {
   nombre: string;
-  casos_agregados_semana: number;             // CPs agregados esta semana
-  incidencias_devueltas_semana: number;       // RIs devueltas esta semana
-  incidencias_resueltas_semana: number;       // RIs resueltas esta semana
-  casos_prueba_finalizados_semana: number;    // CPs finalizados esta semana
-  casos_prueba_pendientes: number;            // CPs pendientes actuales
+  
+  // Casos de Prueba (CP) - Cambios de la semana
+  casos_agregados_semana: number;             // CPs nuevos agregados esta semana
+  casos_con_cambios_semana: number;           // CPs con cambio de estado esta semana
+  
+  // Casos de Prueba (CP) - Totales actuales
+  casos_prueba_pendientes: number;            // CPs pendientes actuales (total)
+  casos_prueba_en_curso: number;              // CPs en curso actuales (total)
+  casos_prueba_finalizados: number;           // CPs finalizados actuales (total)
+  
+  // Reportes de Incidencias (RI) - Cambios de la semana
+  incidencias_nuevas_semana: number;          // RIs nuevas esta semana
+  incidencias_con_cambios_semana: number;     // RIs con cambio de estado esta semana
+  
+  // Reportes de Incidencias (RI) - Totales actuales
+  incidencias_pendientes: number;             // RIs pendientes actuales (total)
+  incidencias_en_curso: number;               // RIs en curso actuales (total)
+  incidencias_devueltas: number;              // RIs devueltas actuales (total)
+  incidencias_finalizadas: number;            // RIs finalizadas actuales (total)
+  incidencias_resueltas: number;              // RIs resueltas actuales (total)
 }
 
 /**

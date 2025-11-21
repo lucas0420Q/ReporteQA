@@ -129,63 +129,107 @@ export class DiffEngine {
 
   /**
    * Calcula métricas semanales comparando dos snapshots
+   * V3.4: Incluye totales actuales además de cambios de la semana
    */
   calcularMetricasSemanales(
     proyectoActual: ProyectoSnapshot,
     proyectoSemanaAnterior: ProyectoSnapshot | null
   ): {
     casos_agregados_semana: number;
-    incidencias_devueltas_semana: number;
-    incidencias_resueltas_semana: number;
-    casos_prueba_finalizados_semana: number;
+    casos_con_cambios_semana: number;
     casos_prueba_pendientes: number;
+    casos_prueba_en_curso: number;
+    casos_prueba_finalizados: number; // Total actual, no solo de la semana
+    incidencias_nuevas_semana: number;
+    incidencias_con_cambios_semana: number;
+    incidencias_pendientes: number;
+    incidencias_en_curso: number;
+    incidencias_devueltas: number; // Total actual
+    incidencias_finalizadas: number; // Total actual
+    incidencias_resueltas: number; // Total actual
   } {
     
     const comparacion = this.compararProyecto(proyectoActual, proyectoSemanaAnterior);
 
+    // ====================================
+    // CASOS DE PRUEBA (CP)
+    // ====================================
+    
     // Casos agregados = items nuevos en matriz esta semana
     const casosAgregadosSemana = comparacion.matriz.items_nuevos.length;
 
-    // Estados actuales
-    const casosFinalizados = proyectoActual.matriz_pruebas.filter(item =>
-      this.esEstadoFinalizado(item.estado)
-    ).length;
+    // Casos con cambios = items que tuvieron cambio de estado esta semana
+    const casosConCambiosSemana = comparacion.matriz.items_con_cambio_estado.length;
 
+    // Estados actuales de casos de prueba (TOTALES ACTUALES)
     const casosPendientes = proyectoActual.matriz_pruebas.filter(item =>
       this.esEstadoPendiente(item.estado)
     ).length;
 
-    // Incidencias devueltas esta semana = items que cambiaron a "Devuelto"
-    const incidenciasDevueltas = comparacion.incidencias.items_con_cambio_estado.filter(cambio =>
-      this.esEstadoDevuelto(cambio.estado_actual) && 
-      !this.esEstadoDevuelto(cambio.estado_anterior)
-    ).length + comparacion.incidencias.items_nuevos.filter(nuevo =>
-      this.esEstadoDevuelto(nuevo.estado_actual)
+    const casosEnCurso = proyectoActual.matriz_pruebas.filter(item =>
+      this.esEstadoEnCurso(item.estado)
     ).length;
 
-    // Incidencias resueltas esta semana = items que cambiaron a "Resuelto"
-    const incidenciasResueltas = comparacion.incidencias.items_con_cambio_estado.filter(cambio =>
-      this.esEstadoResuelto(cambio.estado_actual) && 
-      !this.esEstadoResuelto(cambio.estado_anterior)
-    ).length + comparacion.incidencias.items_nuevos.filter(nuevo =>
-      this.esEstadoResuelto(nuevo.estado_actual)
+    const casosFinalizados = proyectoActual.matriz_pruebas.filter(item =>
+      this.esEstadoFinalizado(item.estado)
     ).length;
 
-    // Casos finalizados esta semana = items que cambiaron a "Finalizado"
-    const casosFinalizadosSemana = comparacion.matriz.items_con_cambio_estado.filter(cambio =>
-      this.esEstadoFinalizado(cambio.estado_actual) && 
-      !this.esEstadoFinalizado(cambio.estado_anterior)
-    ).length + comparacion.matriz.items_nuevos.filter(nuevo =>
-      this.esEstadoFinalizado(nuevo.estado_actual)
+    // ====================================
+    // REPORTES DE INCIDENCIAS (RI)
+    // ====================================
+    
+    // Incidencias nuevas esta semana
+    const incidenciasNuevasSemana = comparacion.incidencias.items_nuevos.length;
+
+    // Incidencias con cambios = items que tuvieron cambio de estado esta semana
+    const incidenciasConCambiosSemana = comparacion.incidencias.items_con_cambio_estado.length;
+
+    // Estados actuales de incidencias (TOTALES ACTUALES)
+    const incidenciasPendientes = proyectoActual.incidencias.filter(item =>
+      this.esEstadoPendiente(item.estado)
+    ).length;
+
+    const incidenciasEnCurso = proyectoActual.incidencias.filter(item =>
+      this.esEstadoEnCurso(item.estado)
+    ).length;
+
+    const incidenciasFinalizadas = proyectoActual.incidencias.filter(item =>
+      this.esEstadoFinalizado(item.estado)
+    ).length;
+
+    const incidenciasDevueltas = proyectoActual.incidencias.filter(item =>
+      this.esEstadoDevuelto(item.estado)
+    ).length;
+
+    const incidenciasResueltas = proyectoActual.incidencias.filter(item =>
+      this.esEstadoResuelto(item.estado)
     ).length;
 
     return {
       casos_agregados_semana: casosAgregadosSemana,
-      incidencias_devueltas_semana: incidenciasDevueltas,
-      incidencias_resueltas_semana: incidenciasResueltas,
-      casos_prueba_finalizados_semana: casosFinalizadosSemana,
-      casos_prueba_pendientes: casosPendientes
+      casos_con_cambios_semana: casosConCambiosSemana,
+      casos_prueba_pendientes: casosPendientes,
+      casos_prueba_en_curso: casosEnCurso,
+      casos_prueba_finalizados: casosFinalizados, // Total actual
+      incidencias_nuevas_semana: incidenciasNuevasSemana,
+      incidencias_con_cambios_semana: incidenciasConCambiosSemana,
+      incidencias_pendientes: incidenciasPendientes,
+      incidencias_en_curso: incidenciasEnCurso,
+      incidencias_devueltas: incidenciasDevueltas, // Total actual
+      incidencias_finalizadas: incidenciasFinalizadas, // Total actual
+      incidencias_resueltas: incidenciasResueltas // Total actual
     };
+  }
+
+  /**
+   * Determina si un estado es "en curso"
+   */
+  private esEstadoEnCurso(estado: string): boolean {
+    const estadoLower = estado.toLowerCase();
+    return estadoLower.includes('en curso') || 
+           estadoLower.includes('en progreso') ||
+           estadoLower.includes('in progress') ||
+           estadoLower.includes('doing');
   }
 
   /**
