@@ -1,5 +1,5 @@
 {
-  "fecha_hora": "2025-11-21 13:25:16",
+  "fecha_hora": "2025-11-21 08:48:32",
   "zona_horaria": "America/Asuncion",
   "proyectos": [
     {
@@ -189,11 +189,11 @@
         ]
       },
       "incidencias": {
-        "total_actual": 19,
+        "total_actual": 18,
         "por_estado": {
           "Pendiente": 7,
-          "Finalizado": 9,
-          "En curso": 3
+          "Finalizado": 6,
+          "En curso": 5
         },
         "cambios": [
           {
@@ -283,7 +283,7 @@
           {
             "id": "08",
             "titulo": "RI - 08 - Incidencia - Carga mínima de un nuevo Funcionario",
-            "estado_actual": "Finalizado",
+            "estado_actual": "En curso",
             "estado_anterior": "",
             "tipo_cambio": "nuevo"
           },
@@ -353,14 +353,7 @@
           {
             "id": "18",
             "titulo": "RI - 18 - Incidencia grave - Eliminación de un Funcionario al DESHABILITAR",
-            "estado_actual": "Finalizado",
-            "estado_anterior": "",
-            "tipo_cambio": "nuevo"
-          },
-          {
-            "id": "19",
-            "titulo": "RI - 19 - Incidencia - Usuario solicitante en Historial de un Funcionario",
-            "estado_actual": "Finalizado",
+            "estado_actual": "En curso",
             "estado_anterior": "",
             "tipo_cambio": "nuevo"
           }

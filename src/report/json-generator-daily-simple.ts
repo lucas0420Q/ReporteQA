@@ -23,8 +23,11 @@ import {
   SnapshotItem 
 } from '../domain/snapshot-manager.js';
 import { DiffEngine } from '../domain/diff-engine-v2.js';
-import { writeFileSync, existsSync, mkdirSync } from 'fs';
 import { join } from 'path';
+import { 
+  buildDailyReportPath, 
+  writeJsonReportAtomic 
+} from '../utils/fs-reports.js';
 
 export class JSONGeneratorDailySimple {
   private readonly fetcher: NotionFetcher;
@@ -41,32 +44,6 @@ export class JSONGeneratorDailySimple {
     this.fetcher = new NotionFetcher(2);
     this.snapshotManager = new SnapshotManager();
     this.diffEngine = new DiffEngine();
-  }
-
-  /**
-   * Crea la estructura de carpetas: reports/YYYY/MM/DD/
-   * @param fecha - Fecha en formato YYYY-MM-DD
-   * @returns Ruta completa del directorio
-   */
-  private crearEstructuraDirectorios(fecha: string): string {
-    try {
-      const [year, month, day] = fecha.split('-');
-      
-      if (!year || !month || !day) {
-        throw new Error(`Formato de fecha inválido: ${fecha}`);
-      }
-      
-      const rutaCompleta = join(this.baseReportsDir, year, month, day);
-      
-      if (!existsSync(rutaCompleta)) {
-        mkdirSync(rutaCompleta, { recursive: true });
-      }
-      
-      return rutaCompleta;
-    } catch (error) {
-      console.error('Error creando estructura de directorios:', error);
-      throw new Error(`No se pudo crear la estructura de directorios para ${fecha}`);
-    }
   }
 
   /**
@@ -143,29 +120,28 @@ export class JSONGeneratorDailySimple {
         proyectos: proyectosReporte
       };
 
-      // Crear estructura de directorios por fecha
-      const rutaDirectorio = this.crearEstructuraDirectorios(fechaHora.fecha);
-      
-      // Guardar reporte en carpeta organizada por fecha
-      const nombreArchivo = `reporte-daily-${fechaHora.fecha}.json`;
-      const rutaArchivo = join(rutaDirectorio, nombreArchivo);
+      // Guardar reporte con sistema de histórico (sin sobreescritura)
+      const fechaReporte = new Date(fechaHora.fecha_hora);
+      const rutaArchivo = buildDailyReportPath(fechaReporte);
       
       try {
-        writeFileSync(rutaArchivo, JSON.stringify(reporte, null, 2), 'utf8');
-        console.log(`\n   Reporte guardado: ${rutaArchivo}`);
+        const metadata = await writeJsonReportAtomic(rutaArchivo, reporte, {
+          createLatestAlias: true,
+          overwrite: false
+        });
+        
+        console.log(`\n   Reporte guardado: ${metadata.mainPath}`);
+        if (metadata.aliasPath) {
+          console.log(`   Alias latest actualizado: ${metadata.aliasPath}`);
+        }
+        console.log(`   Tamaño: ${(metadata.size / 1024).toFixed(2)} KB`);
       } catch (error) {
-        console.error('Error guardando reporte:', error);
-        throw new Error(`No se pudo guardar el reporte en ${rutaArchivo}`);
-      }
-      
-      // Guardar copia latest en el directorio raíz para fácil acceso
-      try {
-        const rutaLatest = join(this.baseReportsDir, 'latest-daily.json');
-        writeFileSync(rutaLatest, JSON.stringify(reporte, null, 2), 'utf8');
-        console.log(`   Copia latest: ${rutaLatest}`);
-      } catch (error) {
-        console.warn('   [!] No se pudo crear copia latest:', error);
-        // No es crítico, continuar
+        const err = error as Error;
+        if (err.message.includes('ya existe')) {
+          console.warn(`   [!] El reporte de hoy ya existe, no se sobrescribe`);
+        } else {
+          throw new Error(`No se pudo guardar el reporte: ${err.message}`);
+        }
       }
       
       return reporte;
