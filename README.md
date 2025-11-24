@@ -1,32 +1,47 @@
-# 📊 Sistema de Reportes QA v3.1
+# 📊 ReporteQA - Sistema Automático de Reportes QA
 
-> Sistema automatizado de reportes QA con extracción desde Notion API
+> Sistema automatizado de reportes QA con integración a Notion y envío automático de emails
 
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.3.3-blue)](https://www.typescriptlang.org/)
-[![Node.js](https://img.shields.io/badge/Node.js-18%2B-green)](https://nodejs.org/)
-[![Notion API](https://img.shields.io/badge/Notion%20API-2.2.15-black)](https://developers.notion.com/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue)](https://www.typescriptlang.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-22%2B-green)](https://nodejs.org/)
+[![Notion API](https://img.shields.io/badge/Notion%20API-2.2-black)](https://developers.notion.com/)
 
 ## 🎯 ¿Qué hace este proyecto?
 
-Extrae automáticamente datos de **casos de prueba (CP)** e **incidencias (RI)** desde tus bases de datos de Notion y genera reportes estructurados en formato JSON.
+**ReporteQA** extrae automáticamente datos de **Casos de Prueba (CP)** e **Incidencias (RI)** desde tus bases de datos de Notion, genera reportes estructurados en formato JSON, y los envía por email con tablas HTML profesionales.
 
-### ✨ Características v3.1
+### ✨ Características principales
 
-- 📊 **2 Tipos de Reportes**: Diario (cambios) + Semanal (métricas)
-- 🔢 **Ordenamiento por ID**: Numérico (CP-7 antes de CP-10)
-- 🏷️ **Clasificación de Cambios**: Detecta items nuevos, modificados y eliminados
-- 📈 **Reporte Semanal**: Solo 4 métricas clave, sin comparaciones
-- 📝 **Reporte Diario**: Estado actual + comparación con día anterior
+- 📊 **2 Tipos de Reportes**: Diario (cambios) + Semanal (métricas agregadas)
+- 📈 **Exportación CSV**: Reportes semanales en formato CSV compatible con Excel (delimitador configurable)
+- 📧 **Envío Automático de Emails**: Correos HTML con tablas profesionales (sin archivos adjuntos)
+- ⏰ **Scheduler Integrado**: Envío automático configurable (ej: diario 16:00, semanal lunes 09:00)
+- 🔄 **Reintentos Automáticos**: Backoff exponencial en caso de fallos SMTP
+- 📝 **Logs Detallados**: Registro completo de operaciones en `logs/`
+- 🔢 **Ordenamiento Numérico**: IDs ordenados correctamente (CP-7 antes de CP-10)
+- 🏷️ **Detección de Cambios**: Clasifica items como nuevos, modificados o eliminados
 - 📸 **Sistema de Snapshots**: Guarda estado diario para comparaciones precisas
-- 🌎 **Timezone Configurable**: America/Asuncion por defecto
-- 🛡️ **Manejo Robusto**: Continúa aunque falle un proyecto
-- ⚡ **Rate Limiting**: Optimización de llamadas a API
+- 🌎 **Timezone Configurable**: Manejo correcto de zonas horarias
+- 🛡️ **Manejo Robusto de Errores**: Continúa aunque falle un proyecto individual
+- 💾 **Histórico sin Sobrescritura**: Los reportes nunca se pierden, sistema de archivado automático
+
+---
 
 ## 🚀 Inicio Rápido
 
-### 1️⃣ Instalación
+### 1️⃣ Requisitos Previos
+
+- **Node.js 22+** (versión recomendada)
+- **Cuenta de Notion** con integración configurada
+- **Servidor SMTP** (Gmail, Outlook, etc.) para envío de correos
+
+### 2️⃣ Instalación
 
 ```powershell
+# Clonar el repositorio
+git clone <tu-repo-url>
+cd ReporteQA
+
 # Instalar dependencias
 npm install
 
@@ -34,382 +49,575 @@ npm install
 npm run build
 ```
 
-### 2️⃣ Configuración
+### 3️⃣ Configuración
 
-Crear archivo `.env` con:
+#### A. Crear archivo `.env`
+
+```powershell
+# Copiar plantilla de ejemplo
+Copy-Item .env.example .env
+```
+
+#### B. Configurar variables esenciales
+
+Edita `.env` con tus credenciales:
+
 ```env
-NOTION_TOKEN=secret_xxx
-NOTION_PROJECTS_DB_ID=tu_database_id
+# === NOTION ===
+NOTION_TOKEN=secret_tu_token_aqui
+NOTION_PROJECTS_DB_ID=tu_database_id_aqui
+
+# === EMAIL ===
+EMAIL_ENABLED=true
+EMAIL_SMTP_HOST=smtp.gmail.com
+EMAIL_SMTP_PORT=587
+EMAIL_SMTP_SECURE=false
+EMAIL_USER=tu-email@gmail.com
+EMAIL_PASSWORD=tu_app_password_aqui
+EMAIL_FROM=reportes-qa@empresa.com
+
+# Destinatarios (separados por comas, sin espacios)
+EMAIL_RECIPIENTS_DAILY=destinatario1@empresa.com,destinatario2@empresa.com
+EMAIL_RECIPIENTS_WEEKLY=destinatario3@empresa.com,destinatario4@empresa.com
+
+# === OTROS ===
 TIMEZONE=America/Asuncion
 ```
 
-Verificar configuración:
+#### C. Validar configuración
+
 ```powershell
 npm run validate
 ```
 
-### 3️⃣ Uso
+Si todo está correcto, verás:
+```
+>> Validando configuración...
+   Configuración válida
+   Workspace: <workspace-id>
+   Bot ID: <bot-id>
+```
 
-**Generar Reporte Diario** (cambios con clasificación):
+---
+
+## 📖 Uso
+
+### Generar Reportes
+
+#### Reporte Diario (cambios detectados)
+
 ```powershell
 npm run generate:daily
 ```
-→ Genera `reports/YYYY/MM/DD/reporte-daily-YYYY-MM-DD.json`
 
-**Ver cambios con colores**:
-```powershell
-.\ver-cambios.ps1
-```
-→ Muestra resumen visual con clasificación: [+] Nuevos, [~] Modificados, [-] Eliminados
+Esto genera:
+- `reports/diarios/reporte-diario-YYYY-MM-DD.json` (archivo con histórico)
+- `reports/latest-daily.json` (alias al más reciente)
 
-**Generar Reporte Semanal** (4 métricas clave):
+**Nota**: Los reportes diarios mantienen histórico automático. No se sobrescriben.
+
+#### Reporte Semanal (métricas agregadas)
+
 ```powershell
 npm run generate:weekly
 ```
-→ Genera `reports/YYYY/MM/DD/semanales/reporte-weekly-YYYY-W##.json`
+
+Esto genera:
+- `reports/semanales/reporte-semanal-YYYY-MM-DD.json` (archivo con histórico)
+- `reports/latest-weekly.json` (alias al más reciente)
+
+**Nota**: Los reportes semanales mantienen histórico automático. No se sobrescriben.
+
+### Exportar a CSV
+
+#### Exportar último reporte semanal a CSV
+
+```powershell
+npm run export:weekly-csv
+```
+
+Esto genera:
+- `reports/semanales/csv/reporte-semanal-YYYY-MM-DD.csv`
+
+El CSV incluye dos tablas:
+1. **Casos de Prueba (CP)**: CP_nuevos, CP_con_cambios, CP_pendientes, CP_en_curso, CP_finalizados
+2. **Reportes de Incidencias (RI)**: RI_nuevas, RI_con_cambios, RI_pendientes, RI_en_curso, RI_devuelto, RI_finalizado, RI_resuelto
+
+##### 📌 Compatibilidad con Excel (Español)
+
+El CSV se genera con **punto y coma (;)** como delimitador y codificación **UTF-8 con BOM**, lo que garantiza:
+- ✅ Apertura correcta en Excel (versión español) con columnas separadas
+- ✅ Caracteres especiales (tildes, ñ) correctamente renderizados
+- ✅ Sin necesidad de importación manual
+
+Si usas Excel en **inglés**, puedes cambiar el delimitador en `src/config/csv-config.ts`:
+```typescript
+export const CSV_DELIMITER = ','; // Cambiar de ';' a ','
+```
+
+##### 🔍 Campos de Cambios
+
+Los campos `CP_con_cambios` y `RI_con_cambios` reflejan el **número total de items que cambiaron de estado** durante la semana comparada con el snapshot de hace 5 días hábiles. Esto incluye:
+- Items que pasaron de "Pendiente" → "En curso"
+- Items que pasaron de "En curso" → "Finalizado"
+- Items que pasaron de "Pendiente" → "Devuelto"
+- Cualquier otro cambio de estado detectado
+
+**Nota**: Si no existe un snapshot anterior, estos campos aparecerán en `0`.
+
+#### Exportar reporte semanal específico a CSV
+
+```powershell
+npm run export:weekly-csv-custom -- --json ./reports/semanales/reporte-semanal-2025-11-18.json
+```
+
+### Listar Reportes Disponibles
+
+#### Ver todos los reportes diarios
+
+```powershell
+npm run list:daily
+```
+
+#### Ver todos los reportes semanales
+
+```powershell
+npm run list:weekly
+```
+
+### Enviar Reportes por Email
+
+#### Envío Manual
+
+```powershell
+# Enviar reporte diario
+npm run send:daily-email
+
+# Enviar reporte semanal
+npm run send:weekly-email
+
+# Probar conexión SMTP (sin enviar email)
+npm run test:email-connection
+```
+
+#### Envío Automático (Scheduler)
+
+Para activar el scheduler automático, configura en `.env`:
+
+```env
+EMAIL_SCHEDULER_ENABLED=true
+EMAIL_SCHEDULER_DAILY_TIME=16:00
+EMAIL_SCHEDULER_WEEKLY_DAY=1
+EMAIL_SCHEDULER_WEEKLY_TIME=09:00
+EMAIL_SCHEDULER_TIMEZONE=America/Asuncion
+```
+
+Luego inicia el scheduler:
+
+```powershell
+# Iniciar scheduler (proceso persistente)
+npm run start:scheduler
+
+# Ver estado del scheduler
+npm run status:scheduler
+```
+
+El scheduler quedará corriendo y enviará automáticamente:
+- **Reporte diario**: Todos los días a las 16:00
+- **Reporte semanal**: Todos los lunes a las 09:00
+
+---
+
+## 📧 Configuración de Email (Detallada)
+
+### Gmail
+
+1. **Habilitar 2FA** en tu cuenta de Gmail
+   - Ve a https://myaccount.google.com/security
+   - Activa "Verificación en dos pasos"
+
+2. **Generar App Password**
+   - Ve a https://myaccount.google.com/apppasswords
+   - Selecciona "Otra (nombre personalizado)" → "ReporteQA"
+   - Copia la contraseña de 16 caracteres generada
+
+3. **Configurar en `.env`**
+   ```env
+   EMAIL_SMTP_HOST=smtp.gmail.com
+   EMAIL_SMTP_PORT=587
+   EMAIL_SMTP_SECURE=false
+   EMAIL_USER=tu-email@gmail.com
+   EMAIL_PASSWORD=xxxx xxxx xxxx xxxx
+   EMAIL_FROM=tu-email@gmail.com
+   ```
+
+⚠️ **Importante**: Usa la "App Password" generada, NO tu contraseña de Gmail.
+
+### Outlook / Office 365
+
+```env
+EMAIL_SMTP_HOST=smtp.office365.com
+EMAIL_SMTP_PORT=587
+EMAIL_SMTP_SECURE=false
+EMAIL_USER=tu-email@outlook.com
+EMAIL_PASSWORD=tu_password_aqui
+EMAIL_FROM=tu-email@outlook.com
+```
+
+### Otros Proveedores SMTP
+
+Consulta la documentación de tu proveedor para obtener:
+- Host SMTP (ej: `smtp.tuproveedor.com`)
+- Puerto SMTP (ej: `587` o `465`)
+- Si usa TLS/SSL (generalmente `false` para puerto 587)
+
+---
 
 ## 📊 Estructura de Reportes
 
 ### Reporte Diario
+
+El reporte diario muestra **solo los items que cambiaron** desde el día anterior:
+
 ```json
 {
-  "fecha_hora": "2025-11-18 11:15:44",
-  "proyectos": [{
-    "nombre": "CRM Celexx",
-    "matriz_pruebas": {
-      "total_actual": 79,
-      "por_estado": {"Finalizado": 40, "En curso": 25, "Pendiente": 14},
-      "cambios": [
-        {
-          "id": "23",
-          "titulo": "CP - 23 - Crear Oportunidad",
-          "estado_actual": "Finalizado",
-          "estado_anterior": "En curso",
-          "tipo_cambio": "modificado"
-        }
-      ]
-    },
-    "incidencias": {
-      "total_actual": 124,
-      "cambios": []
+  "fecha_hora": "2025-11-20 10:30:00",
+  "zona_horaria": "America/Asuncion",
+  "proyectos": [
+    {
+      "nombre": "CRM Celexx",
+      "matriz_pruebas": {
+        "total_actual": 79,
+        "por_estado": {
+          "Finalizado": 40,
+          "En curso": 25,
+          "Pendiente": 14
+        },
+        "cambios": [
+          {
+            "id": "23",
+            "titulo": "CP - 23 - Crear Oportunidad",
+            "estado_actual": "Finalizado",
+            "estado_anterior": "En curso",
+            "tipo_cambio": "modificado"
+          }
+        ]
+      },
+      "incidencias": {
+        "total_actual": 124,
+        "por_estado": { "Abierta": 10, "Resuelta": 114 },
+        "cambios": []
+      }
     }
-  }]
+  ]
 }
 ```
 
+**Tipos de cambio detectados:**
+- `nuevo`: Item agregado hoy
+- `modificado`: Estado o contenido cambió
+- `eliminado`: Item removido
+
 ### Reporte Semanal
+
+El reporte semanal muestra **métricas agregadas** de la semana actual:
+
 ```json
 {
-  "semana": "2025-W46",
-  "proyectos": [{
-    "nombre": "Proyecto X",
-    "casos_agregados_semana": 45,
-    "incidencias_devueltas_semana": 11,
-    "casos_prueba_finalizados_semana": 20,
-    "casos_prueba_pendientes": 31
-  }]
+  "semana": "2025-W47",
+  "fecha_hora": "2025-11-20 10:30:00",
+  "zona_horaria": "America/Asuncion",
+  "proyectos": [
+    {
+      "nombre": "Proyecto X",
+      "casos_agregados_semana": 45,
+      "incidencias_devueltas_semana": 11,
+      "incidencias_resueltas_semana": 23,
+      "casos_prueba_finalizados_semana": 20,
+      "casos_prueba_pendientes": 31
+    }
+  ]
 }
 ```
+
+---
 
 ## 📁 Estructura del Proyecto
 
 ```
-src/
-├── domain/               # Tipos y lógica de negocio
-│   └── tipos-reportes-simple.ts  # Tipos v3.1
-├── notion/               # Integración Notion API
-│   ├── client.ts         # Cliente seguro
-│   └── fetch.ts          # Fetcher con rate limiting
-├── report/               # Generadores de reportes
-│   ├── json-generator-daily-simple.ts   # Reporte diario
-│   └── json-generator-weekly-simple.ts  # Reporte semanal
-└── index.ts              # CLI principal
-
-reports/                  # Reportes generados
-├── latest-daily.json
-└── semanales/
-    └── latest-weekly.json
+ReporteQA/
+├── src/
+│   ├── config/
+│   │   └── email-config.ts         # Configuración de email (PAUSADO)
+│   ├── domain/
+│   │   ├── tipos-reportes-simple.ts # Tipos TypeScript
+│   │   ├── constants.ts             # Constantes centralizadas
+│   │   ├── date-utils.ts            # Utilidades de fecha
+│   │   ├── snapshot-manager.ts      # Gestor de snapshots
+│   │   └── diff-engine-*.ts         # Motores de comparación
+│   ├── email/                       # Sistema de email (PAUSADO)
+│   │   ├── email-service.ts
+│   │   ├── email-templates.ts
+│   │   └── email-orchestrator.ts
+│   ├── notion/
+│   │   ├── client.ts                # Cliente Notion API
+│   │   └── fetch.ts                 # Fetcher con rate limiting
+│   ├── report/
+│   │   ├── json-generator-daily-simple.ts
+│   │   ├── json-generator-weekly-simple.ts
+│   │   └── csv-exporter-weekly.ts   # Exportador CSV
+│   ├── scheduler/                   # Scheduler (PAUSADO)
+│   │   └── email-scheduler.ts
+│   ├── types/
+│   │   └── report-types.ts          # Tipos para reportes y CSV
+│   ├── utils/
+│   │   ├── logger.ts                # Sistema de logging
+│   │   └── fs-reports.ts            # Utilidades de filesystem
+│   └── index.ts                     # CLI principal
+│
+├── reports/                         # Reportes generados
+│   ├── latest-daily.json            # Alias al reporte diario más reciente
+│   ├── latest-weekly.json           # Alias al reporte semanal más reciente
+│   ├── diarios/                     # Histórico de reportes diarios
+│   │   ├── reporte-diario-2025-11-18.json
+│   │   ├── reporte-diario-2025-11-19.json
+│   │   └── reporte-diario-2025-11-20.json
+│   └── semanales/                   # Histórico de reportes semanales
+│       ├── reporte-semanal-2025-11-18.json
+│       ├── reporte-semanal-2025-11-25.json
+│       └── csv/                     # Exportaciones CSV
+│           ├── reporte-semanal-2025-11-18.csv
+│           └── reporte-semanal-2025-11-25.csv
+│
+├── snapshots/                       # Snapshots diarios
+│   ├── latest.json
+│   └── YYYY/MM/DD/...
+│
+├── logs/                            # Logs de operaciones
+│   └── email-YYYY-MM-DD.log
+│
+├── tests/                           # Tests unitarios
+│   └── email.spec.ts
+│
+├── .env                             # Configuración (NO subir a Git)
+├── .env.example                     # Plantilla de configuración
+├── package.json
+├── tsconfig.json
+└── README.md
 ```
+
+---
 
 ## 🔧 Comandos Disponibles
 
-```powershell
-# Generar reportes
-npm run generate:daily        # Reporte diario
-npm run generate:weekly       # Reporte semanal
+### Generación de Reportes
 
-# Utilidades
-npm run validate             # Validar configuración
-npm run build                # Compilar TypeScript
-npm run lint                 # Linter
-npm run format               # Formatear código
+| Comando | Descripción |
+|---------|-------------|
+| `npm run generate:daily` | Generar reporte diario (cambios) con histórico |
+| `npm run generate:weekly` | Generar reporte semanal (métricas) con histórico |
+| `npm run validate` | Validar configuración y conexión Notion |
+
+### Exportación y Gestión
+
+| Comando | Descripción |
+|---------|-------------|
+| `npm run export:weekly-csv` | Exportar último reporte semanal a CSV |
+| `npm run export:weekly-csv-custom` | Exportar reporte semanal específico a CSV |
+| `npm run list:daily` | Listar todos los reportes diarios disponibles |
+| `npm run list:weekly` | Listar todos los reportes semanales disponibles |
+
+### Desarrollo
+
+| Comando | Descripción |
+|---------|-------------|
+| `npm run build` | Compilar TypeScript a JavaScript |
+| `npm test` | Ejecutar tests con Playwright |
+| `npm run lint` | Verificar código con ESLint |
+| `npm run format` | Formatear código con Prettier |
+| `npm run clean` | Limpiar archivos compilados |
+
+---
+
+## 🧪 Tests
+
+El proyecto incluye tests unitarios para el sistema de email:
+
+```powershell
+# Ejecutar todos los tests
+npm test
+
+# Ejecutar tests en modo UI
+npm run test:ui
 ```
 
-## 📚 Documentación
+Los tests cubren:
+- ✅ Generación de plantillas HTML (daily y weekly)
+- ✅ Validación de configuración de email
+- ✅ Escape de HTML para prevención de XSS
+- ✅ Truncamiento de cambios (máximo 10 por categoría)
+- ✅ Badges de tipo de cambio (nuevo/modificado/eliminado)
 
-Para documentación completa, ver **[DOCUMENTACION-TECNICA.md](./DOCUMENTACION-TECNICA.md)**
+---
 
-Incluye:
-- Arquitectura del sistema
-- Estructuras de datos detalladas
-- Roadmap (v3.2 con sistema de snapshots)
-- Notas técnicas
+## 🔒 Seguridad
 
-## 🔮 Próximas Mejoras (v3.2)
+### ⚠️ IMPORTANTE: Protección de Credenciales
 
-- Sistema de snapshots diarios para comparación real
-- Campo `estado_anterior` con valor real (no vacío)
-- Detección de items nuevos, modificados y eliminados
-- Métricas semanales precisas basadas en diffs
+- **NUNCA** subir el archivo `.env` al repositorio
+- **NUNCA** hacer commit de tokens o contraseñas hardcodeadas
+- **SIEMPRE** usar `.env` para credenciales sensibles
+- **SIEMPRE** usar `.gitignore` para excluir `.env`
+
+### Variables Sensibles
+
+Estas variables contienen información sensible y NO deben compartirse:
+- `NOTION_TOKEN`
+- `EMAIL_PASSWORD`
+- `AWS_SECRET_ACCESS_KEY` (si usas AWS)
+
+---
+
+## 🚨 Solución de Problemas
+
+### Error: "Token de Notion inválido"
+
+1. Verifica que tu token empiece con `secret_` o `ntn_`
+2. Confirma que la integración tiene acceso a las páginas
+3. Regenera el token si es necesario
+
+### Error: "Conexión SMTP fallida"
+
+1. **Gmail**: Asegúrate de usar "App Password", no tu contraseña regular
+2. **Outlook**: Verifica que tu cuenta no tenga restricciones de seguridad
+3. **Firewall**: Confirma que los puertos 587 o 465 están abiertos
+4. Prueba con: `npm run test:email-connection`
+
+### Error: "Archivo de reporte no encontrado"
+
+Primero genera el reporte antes de intentar enviarlo:
+
+```powershell
+# Generar y enviar en secuencia
+npm run generate:daily
+npm run send:daily-email
+```
+
+### No se detectan cambios en el reporte diario
+
+- El sistema compara con el snapshot del día anterior
+- Si es el primer día, no habrá snapshot previo para comparar
+- Verifica que los datos en Notion hayan cambiado realmente
+
+---
+
+## 📚 Variables de Entorno (Referencia Completa)
+
+### Notion
+
+```env
+NOTION_TOKEN=secret_xxx              # Token de integración
+NOTION_PROJECTS_DB_ID=xxx            # ID de base de datos de proyectos
+```
+
+### Email - Básico
+
+```env
+EMAIL_ENABLED=true                   # Activar/desactivar email
+EMAIL_SMTP_HOST=smtp.gmail.com       # Host SMTP
+EMAIL_SMTP_PORT=587                  # Puerto SMTP
+EMAIL_SMTP_SECURE=false              # Usar SSL/TLS directo
+EMAIL_USER=email@ejemplo.com         # Usuario SMTP
+EMAIL_PASSWORD=password              # Contraseña o App Password
+EMAIL_FROM=reportes@ejemplo.com      # Remitente
+```
+
+### Email - Destinatarios
+
+```env
+EMAIL_RECIPIENTS_DAILY=email1@x.com,email2@x.com   # Diario
+EMAIL_RECIPIENTS_WEEKLY=email3@x.com,email4@x.com  # Semanal
+```
+
+### Email - Personalización
+
+```env
+EMAIL_SUBJECT_DAILY=Reporte diario de avances QA
+EMAIL_SUBJECT_WEEKLY=Reporte semanal de avances QA
+EMAIL_INTRO_DAILY=Saludos cordiales, por este medio...
+EMAIL_INTRO_WEEKLY=Saludos cordiales, por este medio...
+```
+
+### Email - Reintentos
+
+```env
+EMAIL_MAX_RETRIES=3                  # Número de reintentos
+EMAIL_RETRY_DELAY_MS=1000            # Delay inicial (ms)
+EMAIL_RETRY_BACKOFF=2                # Multiplicador de backoff
+```
+
+### Email - Scheduler
+
+```env
+EMAIL_SCHEDULER_ENABLED=true         # Activar scheduler
+EMAIL_SCHEDULER_DAILY_TIME=16:00     # Hora diaria (HH:MM)
+EMAIL_SCHEDULER_WEEKLY_DAY=1         # Día semanal (0=Dom, 1=Lun, ...)
+EMAIL_SCHEDULER_WEEKLY_TIME=09:00    # Hora semanal (HH:MM)
+EMAIL_SCHEDULER_TIMEZONE=America/Asuncion
+```
+
+### Otros
+
+```env
+TIMEZONE=America/Asuncion            # Zona horaria para reportes
+```
+
+---
 
 ## 📝 Changelog
 
-### v3.1.0 - 2025-11-13
-- ✨ Nuevos generadores simplificados (daily + weekly)
-- 🔧 CLI con comandos `generate:daily` y `generate:weekly`
-- 📊 JSON simplificado sin buckets complejos
-- 🔢 Ordenamiento numérico por ID corregido
-- 📚 Documentación consolidada
+### v3.2.0 (Actual)
+- ✅ Sistema completo de envío de emails HTML
+- ✅ Scheduler automático con node-cron
+- ✅ Reintentos con backoff exponencial
+- ✅ Templates HTML profesionales
+- ✅ Tests unitarios para email
+- ✅ Logs detallados
+- ✅ Documentación consolidada
 
-### v2.0.0 - 2025-11-10
-- Generador JSON con buckets por estado
-- Rate limiting y manejo de errores
-- Soporte múltiples proyectos
+### v3.1.0
+- ✅ Generadores simplificados (daily + weekly)
+- ✅ Ordenamiento numérico por ID
+- ✅ Clasificación de cambios (nuevo/modificado/eliminado)
+
+### v2.0.0
+- ✅ Integración con Notion API
+- ✅ Sistema de snapshots
+- ✅ Soporte múltiples proyectos
+
+---
 
 ## 👤 Autor
 
 **Lucas Zaracho**  
-Sistema de Reportes QA - v3.1.0
+ReporteQA - Sistema Automático de Reportes QA
 
 ---
-
-*Para más detalles, consulta la [documentación técnica completa](./DOCUMENTACION-TECNICA.md)*
-
-1. **Configurar variables de entorno:**
-```bash
-cp .env.example .env
-# Editar .env con tus credenciales
-```
-
-2. **Configurar el Token de Notion (3 opciones):**
-
-**Opción A: Archivo token.txt (Recomendado para desarrollo)**
-```bash
-# Copia y renombra el archivo ejemplo
-cp token.example.txt token.txt
-# Edita token.txt con tu token real de Notion
-```
-
-**Opción B: Variable de entorno**
-```bash
-NOTION_TOKEN=ntn_tu_token_aquí
-```
-
-**Opción C: AWS Secrets Manager (Producción)**
-```bash
-AWS_SECRETS_NAME=nombre-del-secret
-AWS_REGION=us-east-1
-```
-
-3. **Variables requeridas en `.env`:**
-```bash
-NOTION_PROJECTS_DB_ID=tu_database_id
-MATRIZ_DB_NAME=Matriz de Pruebas
-INCIDENCIAS_DB_NAME=Reporte de incidencias
-```
-
-### 3️⃣ Uso
-
-**Generar reporte completo:**
-```bash
-npm run reporte
-# Genera JSON + TXT para gerencia
-```
-
-**Solo datos JSON:**
-```bash
-npm run reporte:json
-```
-
-**Versión limpia (sin logs):**
-```bash
-npm run reporte:limpio
-```
-
-## 📊 ¿Qué genera?
-
-### 📄 Archivos JSON
-- **Datos técnicos completos** con toda la información extraída
-- **Formato estructurado** para integración con otros sistemas
-
-### 📋 Archivos TXT para Gerencia
-```
-📁 reportes-gerencia/reporte-YYYY-MM-DD/
-├── 📄 00-RESUMEN-EJECUTIVO.txt    # 👔 Para presentar al gerente
-├── 📄 01-DETALLE-PROYECTOS.txt    # 📊 Vista general de todos
-└── 📁 proyectos-individuales/     # 🔍 Detalle por proyecto
-    ├── 📄 Crux_-_Version_20.txt
-    ├── 📄 CRM_Celexx.txt
-    └── 📄 ...
-```
-
-### 📈 Ejemplo de Salida
-```
-🎯 REPORTE GENERADO EXITOSAMENTE
-═══════════════════════════════════
-📅 Fecha: 2025-11-10
-📊 Proyectos: 7
-🧪 Casos de Prueba: 166
-🐛 Incidencias: 157
-📄 Archivo JSON: reportes/reporte-real-2025-11-10.json
-📁 Archivos TXT: reportes-gerencia/reporte-2025-11-10
-```
-
-## 🛠️ Scripts Disponibles
-
-| Comando | Descripción |
-|---------|-------------|
-| `npm run reporte` | 🎯 Generar reporte completo (recomendado) |
-| `npm run reporte:json` | 📄 Solo generar datos JSON |
-| `npm run reporte:limpio` | 🧹 Reporte sin logs detallados |
-| `npm run build` | 🔨 Compilar TypeScript |
-| `npm run lint` | 🔍 Verificar código |
-| `npm run clean` | 🗑️ Limpiar archivos temporales |
-
-## 🔧 Configuración Avanzada
-
-### Variables de Entorno Opcionales
-
-```bash
-# Directorios personalizados
-SNAPSHOT_DIR=./snapshots
-REPORT_OUT_DIR=./reportes
-
-# Rate limiting
-NOTION_RATE_LIMIT_REQUESTS_PER_MINUTE=60
-
-# Logging
-LOG_LEVEL=info
-ENABLE_DEBUG=false
-```
-
-### AWS (Opcional)
-
-Para usar AWS Secrets Manager en lugar de `.env`:
-
-```bash
-AWS_REGION=us-east-1
-AWS_SECRETS_NAME=notion-qa-secrets
-```
-
-## 🔒 Seguridad del Token
-
-### ⚠️ IMPORTANTE: El token de Notion es SENSIBLE
-- **NUNCA** subir el archivo `token.txt` al repositorio
-- **NUNCA** hacer commit del token hardcodeado
-- **SIEMPRE** usar `.gitignore` para excluir archivos de token
-
-### 📂 Estructura Recomendada para el Repositorio
-```
-📁 Proyecto-QA/
-├── 📄 token.example.txt   ✅ SÍ subir (ejemplo)
-├── 📄 token.txt          ❌ NO subir (contiene token real)
-├── 📄 .gitignore         ✅ SÍ subir (incluye token.txt)
-└── 📄 README.md          ✅ SÍ subir (instrucciones)
-```
-
-### 🔧 Orden de Prioridad para el Token
-1. **AWS Secrets Manager** (producción)
-2. **Archivo token.txt** (desarrollo local)
-3. **Variable de entorno** (fallback)
-
-## 🚨 Solución de Problemas
-
-### 🔧 Error: "cannot open '.git/FETCH_HEAD'"
-
-**Síntoma:** Tu jefe (u otros colaboradores) ven este error al hacer pull y tienen que eliminar y volver a clonar el repositorio.
-
-**Solución Rápida (Recomendada):**
-```powershell
-# Ejecutar script de reparación automática
-.\fix-git.ps1
-```
-
-Este script soluciona el problema en segundos sin necesidad de eliminar nada.
-
-**Solución Manual:**
-```powershell
-# Crear el archivo faltante
-New-Item -Path ".git\FETCH_HEAD" -ItemType File -Force
-
-# Limpiar y reparar
-git gc --prune=now
-git fetch origin
-```
-
-**Prevención:**
-```powershell
-# Configurar hooks automáticos (ejecutar una sola vez)
-.\setup-git.ps1
-```
-
-📖 **Ver guía completa:** [GIT-TROUBLESHOOTING.md](./GIT-TROUBLESHOOTING.md)
-
----
-
-### Error: "multiple data sources"
-Si ves este error, significa que una base de datos de Notion usa múltiples fuentes:
-
-1. Abrir la base de datos en Notion
-2. Ir a configuración (3 puntos)
-3. Remover fuentes adicionales
-4. Ejecutar nuevamente
-
-### Error: Token no válido
-```bash
-# Verificar que el token es correcto
-echo $NOTION_TOKEN
-
-# Debe empezar con 'ntn_' o 'secret_'
-```
-
-### Sin datos encontrados
-- Verificar que la integración tiene acceso a las páginas
-- Confirmar que los nombres de DB coinciden exactamente
-
-## 📚 Arquitectura
-
-### Componentes Principales
-
-- **`main.ts`**: Punto de entrada y orquestación
-- **`NotionFetcher`**: Extracción robusta de datos
-- **`JSONGeneratorReal`**: Procesamiento de datos
-- **`GeneradorTxtParaGerente`**: Formateo gerencial
-
-### Flujo de Datos
-
-```
-Notion API → Extracción → Procesamiento → Reportes
-     ↓           ↓            ↓           ↓
-  [Proyectos] [Matrices] [Estadísticas] [TXT+JSON]
-```
-
-## 🤝 Contribuir
-
-1. Fork del proyecto
-2. Crear branch: `git checkout -b feature/nueva-funcionalidad`
-3. Commit: `git commit -m 'Agregar nueva funcionalidad'`
-4. Push: `git push origin feature/nueva-funcionalidad`
-5. Pull Request
 
 ## 📄 Licencia
 
-MIT - ver [LICENSE](LICENSE) para detalles.
-
-## 🆘 Soporte
-
-¿Problemas? [Crear issue](../../issues) o contactar al equipo de desarrollo.
+MIT - Ver [LICENSE](LICENSE) para más detalles
 
 ---
 
-**Hecho con ❤️ para optimizar reportes de QA**
+**🚀 ¿Listo para empezar?**
+
+```powershell
+npm install
+npm run build
+npm run validate
+npm run generate:daily
+npm run send:daily-email
+```
+
+¡Tus reportes QA automatizados están listos! 🎉
